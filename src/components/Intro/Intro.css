@@ -5,7 +5,7 @@
     transform: translate(-50%, -50%);
     color: white;
     font-family: "Jersey15", sans-serif;
-    font-size: clamp(18px, 8vw, 10vw);
+    font-size: clamp(8vw, 10vw + 34px, 12vw);
     width: 100%;
     text-align: center;
 }
