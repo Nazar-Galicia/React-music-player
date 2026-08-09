@@ -12,3 +12,7 @@
     text-align: center;
     cursor: pointer;
 }
+.initial-text-hide {
+    opacity: 0;
+    pointer-events: none;
+}
