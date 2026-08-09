@@ -1,6 +1,7 @@
 import type {FC} from "react";
 import '@/styles/reset.css'
 import '@/styles/fonts.css'
+import '@/styles/global.css'
 
 const App: FC = () => {
   return (
