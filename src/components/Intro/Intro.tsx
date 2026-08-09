@@ -1,6 +1,14 @@
 import type {FC} from "react";
 
-const Intro: FC = () => {
+interface IntroProps {
+    isStartSite: boolean;
+}
+
+const Intro: FC<IntroProps> = (props) => {
+    const {
+        isStartSite,
+    } = props
+
     return (
         <p className='intro-title'>
             <span className='intro-listen'>Listen.</span>
