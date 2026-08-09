@@ -1,4 +1,4 @@
-import type {FC} from "react";
+import {type FC, useEffect, useRef} from "react";
 
 interface IntroProps {
     isStartSite: boolean;
@@ -11,10 +11,30 @@ const Intro: FC<IntroProps> = (props) => {
         isIntro,
     } = props
 
+    const listenRef = useRef<HTMLSpanElement | null>(null)
+    const everywhereRef = useRef<HTMLSpanElement | null>(null)
+
+    useEffect(() => {
+        if (isStartSite === true && isIntro === 'false') {
+            setTimeout(() => {
+                listenRef.current?.classList.remove('intro-word-hidden')
+
+                setTimeout(() => {
+                    everywhereRef.current?.classList.remove('intro-word-hidden')
+
+                    setTimeout(() => {
+                        listenRef.current?.classList.add('intro-word-hidden')
+                        everywhereRef.current?.classList.add('intro-word-hidden')
+                    }, 1750)
+                }, 2000)
+            }, 750)
+        }
+    }, [isStartSite])
+
     return (
         <p className='intro-title'>
-            <span className={`intro-listen ${isIntro === 'true' ? 'intro-word-hidden' : null}`}>Listen.</span>
-            <span className={`intro-everywhere ${isIntro === 'true' ? 'intro-word-hidden' : null}`}>Everywhere.</span>
+            <span ref={listenRef} className='intro-listen intro-word-hidden'>Listen.</span>
+            <span ref={everywhereRef} className='intro-everywhere intro-word-hidden'>Everywhere.</span>
         </p>
     )
 }
