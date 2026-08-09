@@ -25,6 +25,8 @@ const Intro: FC<IntroProps> = (props) => {
                     setTimeout(() => {
                         listenRef.current?.classList.add('intro-word-hidden')
                         everywhereRef.current?.classList.add('intro-word-hidden')
+
+                        localStorage.setItem('isIntro', 'true')
                     }, 1750)
                 }, 2000)
             }, 750)
