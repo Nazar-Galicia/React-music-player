@@ -1,5 +1,6 @@
 import {type FC, useEffect, useState} from "react";
 import './MusicPlayer.css'
+import Intro from "../Intro/Intro.tsx";
 
 const MusicPlayer: FC = () => {
     const isIntro: string = localStorage.getItem('isIntro') || 'false'
@@ -21,6 +22,8 @@ const MusicPlayer: FC = () => {
     return (
         <div className='music-player'>
             <p className={`initial-text ${startSite || isIntro === 'true' ? 'initial-text-hide' : ''}`}>Click to start</p>
+
+            <Intro />
         </div>
     )
 }
