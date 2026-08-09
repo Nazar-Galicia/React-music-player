@@ -1,4 +1,5 @@
 import type {FC} from "react";
+import './SearchInput.css'
 
 const SearchInput: FC = () => {
     return (
