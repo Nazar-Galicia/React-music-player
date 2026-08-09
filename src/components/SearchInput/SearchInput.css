@@ -13,6 +13,7 @@
     border-radius: 16px;
 
     transition:
+            transform 0.7s ease-in-out,
             border-color 0.25s ease,
             box-shadow 0.25s ease;
 
@@ -75,4 +76,8 @@
     font-family: inherit;
     font-size: 0.7em;
     white-space: nowrap;
+}
+
+.hero-section:focus-within .search {
+    transform: translateY(-30vh);
 }
