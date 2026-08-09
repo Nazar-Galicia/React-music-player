@@ -1,0 +1,15 @@
+.intro-title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-family: "Jersey15", sans-serif;
+    font-size: clamp(18px, 8vw, 10vw);
+    width: 100%;
+    text-align: center;
+}
+.intro-word-hidden {
+    visibility: hidden;
+    pointer-events: none;
+}

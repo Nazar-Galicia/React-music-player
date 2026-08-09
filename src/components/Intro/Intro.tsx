@@ -1,4 +1,5 @@
 import {type FC, useEffect, useRef} from "react";
+import './Intro.css'
 
 interface IntroProps {
     isStartSite: boolean;
@@ -29,13 +30,13 @@ const Intro: FC<IntroProps> = (props) => {
                         localStorage.setItem('isIntro', 'true')
                     }, 1750)
                 }, 2000)
-            }, 750)
+            }, 1000)
         }
     }, [isStartSite])
 
     return (
         <p className='intro-title'>
-            <span ref={listenRef} className='intro-listen intro-word-hidden'>Listen.</span>
+            <span ref={listenRef} className='intro-listen intro-word-hidden'>Listen. </span>
             <span ref={everywhereRef} className='intro-everywhere intro-word-hidden'>Everywhere.</span>
         </p>
     )
