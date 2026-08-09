@@ -1,12 +1,12 @@
-import {type FC, useEffect} from "react";
+import {type FC, useEffect, useRef} from "react";
 import './MusicPlayer.css'
 
 const MusicPlayer: FC = () => {
     const isIntro: string = localStorage.getItem('isIntro') || 'false'
-    let startSite: boolean = false
+    const startSite = useRef<boolean>(false)
 
     const startIntro = (): void => {
-        startSite = true
+        startSite.current = true
         document.removeEventListener('click', startIntro)
     }
 
@@ -20,7 +20,7 @@ const MusicPlayer: FC = () => {
 
     return (
         <div className='music-player'>
-            <p className='initial-text'>Click to start</p>
+            <p className={`initial-text ${startSite.current ? 'initial-text-hide' : ''}`}>Click to start</p>
         </div>
     )
 }
