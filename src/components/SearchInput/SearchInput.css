@@ -1,7 +1,7 @@
 .search {
-    width: 420px;
-    height: 54px;
-    padding: 0 14px 0 17px;
+    width: 50%;
+    height: fit-content;
+    padding: 0 25px;
     font-family: "Jersey15", sans-serif;
 
     display: flex;
@@ -15,6 +15,8 @@
     transition:
             border-color 0.25s ease,
             box-shadow 0.25s ease;
+
+    font-size: clamp(16px, 36px, 60px);
 }
 
 .search:focus-within {
@@ -42,6 +44,8 @@
 .search__input {
     flex: 1;
     min-width: 0;
+    display: block;
+    height: 80px;
 
     border: 0;
     outline: 0;
@@ -49,7 +53,6 @@
 
     color: #fff;
     font: inherit;
-    font-size: 15px;
 }
 
 .search__input::placeholder {
@@ -70,6 +73,6 @@
     background: #181818;
 
     font-family: inherit;
-    font-size: 11px;
+    font-size: 0.7em;
     white-space: nowrap;
 }

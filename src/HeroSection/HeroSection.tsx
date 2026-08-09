@@ -1,5 +1,6 @@
 import type {FC} from "react";
 import SearchInput from "../components/SearchInput/SearchInput.tsx";
+import './HeroSection.css'
 
 const HeroSection: FC = () => {
     return (
