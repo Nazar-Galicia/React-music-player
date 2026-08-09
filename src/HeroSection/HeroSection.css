@@ -6,9 +6,15 @@
     align-items: center;
     padding-top: 7vh;
     row-gap: 10%;
+    transition: all 0.6s ease-in-out;
 }
 .hero-heading {
     font-size: clamp(8vw, 10vw, 12vw);
     color: white;
     font-family: "Jersey15", sans-serif;
+}
+
+.hero-section-hidden {
+    opacity: 0;
+    pointer-events: none;
 }

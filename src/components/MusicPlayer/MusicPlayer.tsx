@@ -26,7 +26,7 @@ const MusicPlayer: FC = () => {
 
             <Intro isStartSite={startSite} isIntro={isIntro}/>
 
-            <HeroSection />
+            <HeroSection isIntro={isIntro} />
         </div>
     )
 }
