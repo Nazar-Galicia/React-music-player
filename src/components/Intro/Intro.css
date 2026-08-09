@@ -8,6 +8,7 @@
     font-size: clamp(8vw, 10vw + 34px, 12vw);
     width: 100%;
     text-align: center;
+    z-index: -1;
 }
 .intro-word-hidden {
     visibility: hidden;
