@@ -1,4 +1,5 @@
 import type {FC} from "react";
+import '@/styles/reset.css'
 
 const App: FC = () => {
   return (
