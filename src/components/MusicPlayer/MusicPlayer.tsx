@@ -1,4 +1,5 @@
 import type {FC} from "react";
+import './MusicPlayer.css'
 
 const MusicPlayer: FC = () => {
     return (
