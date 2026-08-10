@@ -1,5 +1,5 @@
 import {type FC, useEffect, useRef} from "react";
-import SearchInput from "../components/SearchInput/SearchInput.tsx";
+import SearchInput from "../SearchInput/SearchInput.tsx";
 import './HeroSection.css'
 import {Typewriter} from "react-simple-typewriter";
 

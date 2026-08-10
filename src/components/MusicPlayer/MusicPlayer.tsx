@@ -1,7 +1,7 @@
 import {type FC, useEffect, useState} from "react";
 import './MusicPlayer.css'
 import Intro from "../Intro/Intro.tsx";
-import HeroSection from "../../HeroSection/HeroSection.tsx";
+import HeroSection from "../HeroSection/HeroSection.tsx";
 
 const MusicPlayer: FC = () => {
     const isIntro: string = localStorage.getItem('isIntro') || 'false'
