@@ -2,4 +2,5 @@
     position: absolute;
     color: white;
     font-family: "Jersey15", sans-serif;
+    will-change: transform;
 }

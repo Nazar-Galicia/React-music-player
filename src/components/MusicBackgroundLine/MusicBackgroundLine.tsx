@@ -31,33 +31,33 @@ const MusicBackgroundLine: FC<MusicBackgroundLineProps> = (props) => {
     } = lineObj
 
     const y = useRef(0)
-    const lineRef = useRef(null)
-
-    const changeCords = () => {
-        if (y.current > window.innerHeight + 100) {
-            removeLine(id)
-        } else {
-            y.current += speedY * 0.05
-
-            if (lineRef.current) {
-                lineRef.current.style.transform = `translateY(${y.current}px)`
-            }
-        }
-        requestAnimationFrame(changeCords)
-    }
+    const lineRef = useRef<HTMLSpanElement | null>(null)
 
     useEffect(() => {
         let frameId: number;
 
         const animate = () => {
-            changeCords();
+            y.current += speedY * 0.05;
+
+            if (y.current + spY > window.innerHeight + 100) {
+                removeLine(id);
+                return;
+            }
+
+            if (lineRef.current) {
+                lineRef.current.style.transform =
+                    `translate3d(0, ${y.current}px, 0)`;
+            }
+
             frameId = requestAnimationFrame(animate);
         };
 
         frameId = requestAnimationFrame(animate);
 
-        return () => cancelAnimationFrame(frameId);
-    }, []);
+        return () => {
+            cancelAnimationFrame(frameId);
+        };
+    }, [id, removeLine, speedY]);
 
     return (
         <span
