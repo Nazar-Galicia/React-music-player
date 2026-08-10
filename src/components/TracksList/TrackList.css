@@ -1,6 +1,5 @@
 .tracks-list {
     width: min(900px, 100%);
-    margin: 20px auto 0 auto;
     padding: 24px;
     display: flex;
     flex-direction: column;
