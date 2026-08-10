@@ -2,6 +2,7 @@ import {type FC, useEffect, useRef} from "react";
 import SearchInput from "../SearchInput/SearchInput.tsx";
 import './HeroSection.css'
 import {Typewriter} from "react-simple-typewriter";
+import TracksList from "../TracksList/TracksList.tsx";
 
 interface HeroSectionProps {
     isIntro: string,
@@ -44,7 +45,10 @@ const HeroSection: FC<HeroSectionProps> = (props) => {
                 />
             </h1>
 
-            <SearchInput />
+            <div className='search-container'>
+                <SearchInput />
+                <TracksList />
+            </div>
         </main>
     )
 }
