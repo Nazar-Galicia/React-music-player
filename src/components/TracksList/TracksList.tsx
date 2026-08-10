@@ -1,6 +1,14 @@
-import type {FC} from "react";
+import {type FC, useEffect} from "react";
 
-const TracksList: FC = () => {
+interface TracksListProps {
+    query: string;
+}
+
+const TracksList: FC<TracksListProps> = (props) => {
+    const {
+        query,
+    } = props
+
     return (
         <div className='tracks-list'></div>
     )

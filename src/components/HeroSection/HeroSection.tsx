@@ -1,4 +1,4 @@
-import {type FC, useEffect, useRef} from "react";
+import {type FC, useEffect, useRef, useState} from "react";
 import SearchInput from "../SearchInput/SearchInput.tsx";
 import './HeroSection.css'
 import {Typewriter} from "react-simple-typewriter";
@@ -25,6 +25,8 @@ const HeroSection: FC<HeroSectionProps> = (props) => {
         }
     }, [startSite])
 
+    const [inputQuery, setInputQuery] = useState<string>('')
+
     return (
         <main ref={heroRef} className={`hero-section ${isIntro === 'false' ? 'hero-section-hidden' : null}`}>
             <h1 className='hero-heading'>
@@ -46,8 +48,8 @@ const HeroSection: FC<HeroSectionProps> = (props) => {
             </h1>
 
             <div className='search-container'>
-                <SearchInput />
-                <TracksList />
+                <SearchInput value={inputQuery} setValue={setInputQuery} />
+                <TracksList query={inputQuery} />
             </div>
         </main>
     )

@@ -1,7 +1,17 @@
 import type {FC} from "react";
 import './SearchInput.css'
 
-const SearchInput: FC = () => {
+interface SearchInputProps {
+    value: string
+    setValue: (value: string) => void
+}
+
+const SearchInput: FC<SearchInputProps> = (props) => {
+    const {
+        value,
+        setValue,
+    } = props
+
     return (
         <div className="search">
             <svg className="search__icon" viewBox="0 0 24 24" fill="none">
@@ -32,6 +42,12 @@ const SearchInput: FC = () => {
                 className="search__input"
                 type="search"
                 placeholder="Search music..."
+                value={value}
+                onInput={(event) => {
+                    const target = event.target as HTMLInputElement
+
+                    setValue(target.value)
+                }}
             />
 
             <kbd className="search__shortcut">X</kbd>
