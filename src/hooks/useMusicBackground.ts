@@ -124,7 +124,7 @@ export const useMusicBackground = () => {
         };
     }
 
-    const [lines, setLines] = useState<Line[]>(Array.from({ length: 7 }, () => createLine(true)));
+    const [lines, setLines] = useState<Line[]>(Array.from({ length: 15 }, () => createLine(true)));
 
     useEffect(() => {
         const timer = setInterval(() => {
