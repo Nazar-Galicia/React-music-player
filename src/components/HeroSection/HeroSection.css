@@ -31,18 +31,12 @@
     opacity: 0;
     pointer-events: none;
 }
-
-/*.hero-section:focus-within .hero-heading {*/
-/*    transform: translateY(-30vh);*/
-/*}*/
-/*.hero-section:focus-within .search-container {*/
-/*    transform: translateY(-30vh);*/
-/*}*/
 .search-container {
     min-width: 100%;
-    padding-bottom: 100px;
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 20px;
+    transition: all 0.7s ease-in-out;
 }

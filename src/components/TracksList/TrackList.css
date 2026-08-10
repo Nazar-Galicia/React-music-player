@@ -1,10 +1,12 @@
 .tracks-list {
     width: min(900px, 100%);
+    max-height: 70%;
     padding: 24px;
     display: flex;
     flex-direction: column;
     gap: 10px;
     list-style: none;
+    overflow-y: auto;
 
     background:
             radial-gradient(
