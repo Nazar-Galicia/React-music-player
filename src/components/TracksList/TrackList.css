@@ -1,9 +1,10 @@
 .tracks-list {
     width: min(900px, 100%);
     max-height: 70%;
-    padding: 24px;
+    padding: 1%;
     display: flex;
     flex-direction: column;
+    margin: 0 10% 0 10%;
     gap: 10px;
     list-style: none;
     overflow-y: auto;
