@@ -124,23 +124,22 @@ export const useMusicBackground = () => {
         };
     }
 
-    const [exitLine, setExitLine] = useState<string | null>(null);
     const [lines, setLines] = useState<Line[]>(Array.from({ length: 30 }, () => createLine(true)));
 
     useEffect(() => {
         const timer = setInterval(() => {
             setLines(prev => [...prev, createLine()]);
-        }, 1000)
+        }, 1000);
 
-        return () => clearInterval(timer)
-    })
+        return () => clearInterval(timer);
+    }, [])
 
-    useEffect(() => {
-        setLines(prev => prev.filter(line => line.id !== exitLine));
-    }, [exitLine]);
+    const removeLine = (id: string): void => {
+        setLines(prev => prev.filter(line => line.id !== id));
+    };
 
     return {
         lines,
-        setExitLine,
+        removeLine
     }
 }

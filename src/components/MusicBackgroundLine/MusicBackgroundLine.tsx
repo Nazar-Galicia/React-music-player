@@ -1,4 +1,5 @@
 import {type FC, useEffect, useRef} from "react";
+import './MusicBackgroundLine.css'
 
 interface MusicBackgroundLineProps {
     lineObj: {
@@ -10,13 +11,13 @@ interface MusicBackgroundLineProps {
         spX: number,
         spY: number,
     },
-    setExitLine(id: string): void,
+    removeLine(id: string): void,
 }
 
 const MusicBackgroundLine: FC<MusicBackgroundLineProps> = (props) => {
     const {
         lineObj,
-        setExitLine
+        removeLine,
     } = props
 
     const {
@@ -34,7 +35,7 @@ const MusicBackgroundLine: FC<MusicBackgroundLineProps> = (props) => {
 
     const changeCords = () => {
         if (y.current > window.innerHeight + 100) {
-            setExitLine(id)
+            removeLine(id)
         } else {
             y.current += speedY * 0.05
 
