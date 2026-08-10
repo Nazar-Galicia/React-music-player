@@ -35,11 +35,17 @@ const MusicBackgroundLine: FC<MusicBackgroundLineProps> = (props) => {
 
     useEffect(() => {
         let frameId: number;
+        let lastTime = performance.now();
 
-        const animate = () => {
-            y.current += speedY * 0.05;
+        const animate = (time: number) => {
+            const deltaTime = Math.min(time - lastTime, 50);
+            lastTime = time;
 
-            if (y.current + spY > window.innerHeight + 100) {
+            y.current += speedY * (deltaTime / 16.67);
+
+            const pageHeight = window.innerHeight;
+
+            if (y.current > pageHeight + 100) {
                 removeLine(id);
                 return;
             }
@@ -52,12 +58,31 @@ const MusicBackgroundLine: FC<MusicBackgroundLineProps> = (props) => {
             frameId = requestAnimationFrame(animate);
         };
 
+        const handleVisibilityChange = () => {
+            if (document.hidden) {
+                cancelAnimationFrame(frameId);
+                return;
+            }
+
+            lastTime = performance.now();
+            frameId = requestAnimationFrame(animate);
+        };
+
+        document.addEventListener(
+            'visibilitychange',
+            handleVisibilityChange
+        );
+
         frameId = requestAnimationFrame(animate);
 
         return () => {
             cancelAnimationFrame(frameId);
+            document.removeEventListener(
+                'visibilitychange',
+                handleVisibilityChange
+            );
         };
-    }, [id, removeLine, speedY]);
+    }, [id, removeLine, speedY, spY]);
 
     return (
         <span

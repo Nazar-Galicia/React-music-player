@@ -115,7 +115,7 @@ export const useMusicBackground = () => {
 
         return {
             id: nanoid(),
-            speedY: Math.random() * 2 + 8.5,
+            speedY: Math.random() * 2,
             brightness: +(Math.random() * 0.8 + 0.5).toFixed(2),
             line: strokes[Math.floor(Math.random() * strokes.length)],
             fontSize: Math.floor(Math.random() * (36 - 16 + 1)) + 16,
