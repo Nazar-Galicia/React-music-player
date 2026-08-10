@@ -115,21 +115,21 @@ export const useMusicBackground = () => {
 
         return {
             id: nanoid(),
-            speedY: Math.random() * 2 + 1.5,
+            speedY: Math.random(),
             brightness: +(Math.random() * 0.8 + 0.5).toFixed(2),
             line: strokes[Math.floor(Math.random() * strokes.length)],
             fontSize: Math.floor(Math.random() * (36 - 16 + 1)) + 16,
-            spX: Math.random() * window.innerWidth,
+            spX: Math.random() * (window.innerWidth - (window.innerWidth * 0.1) * 2) + (window.innerWidth * 0.1),
             spY: firstLines ? Math.random() * window.innerHeight : -75,
         };
     }
 
-    const [lines, setLines] = useState<Line[]>(Array.from({ length: 30 }, () => createLine(true)));
+    const [lines, setLines] = useState<Line[]>(Array.from({ length: 7 }, () => createLine(true)));
 
     useEffect(() => {
         const timer = setInterval(() => {
             setLines(prev => [...prev, createLine()]);
-        }, 1000);
+        }, 700);
 
         return () => clearInterval(timer);
     }, [])
