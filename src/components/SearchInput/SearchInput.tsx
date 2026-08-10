@@ -1,16 +1,24 @@
-import type {FC} from "react";
+import {type FC, useEffect, useRef, useState} from "react";
 import './SearchInput.css'
 
 interface SearchInputProps {
-    value: string
     setValue: (value: string) => void
 }
 
 const SearchInput: FC<SearchInputProps> = (props) => {
     const {
-        value,
         setValue,
     } = props
+
+    const [inputValue, setInputValue] = useState('')
+
+    let debounceTimer = useRef<number | null>(null);
+
+    useEffect(() => {
+        debounceTimer.current = setTimeout(() => {
+            setValue(inputValue)
+        }, 400)
+    }, [inputValue]);
 
     return (
         <div className="search">
@@ -42,11 +50,13 @@ const SearchInput: FC<SearchInputProps> = (props) => {
                 className="search__input"
                 type="search"
                 placeholder="Search music..."
-                value={value}
-                onInput={(event) => {
+                value={inputValue}
+                onChange={(event) => {
                     const target = event.target as HTMLInputElement
 
-                    setValue(target.value)
+                    if (debounceTimer.current) clearTimeout(debounceTimer.current)
+
+                    setInputValue(target.value)
                 }}
             />
 

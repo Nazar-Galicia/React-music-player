@@ -48,7 +48,7 @@ const HeroSection: FC<HeroSectionProps> = (props) => {
             </h1>
 
             <div className='search-container'>
-                <SearchInput value={inputQuery} setValue={setInputQuery} />
+                <SearchInput setValue={setInputQuery} />
                 <TracksList query={inputQuery} />
             </div>
         </main>
