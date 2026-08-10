@@ -35,3 +35,13 @@
 .hero-section:focus-within .hero-heading {
     transform: translateY(-30vh);
 }
+.hero-section:focus-within .search-container {
+    transform: translateY(-30vh);
+}
+.search-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    transition: all 0.7s ease-in-out;
+}

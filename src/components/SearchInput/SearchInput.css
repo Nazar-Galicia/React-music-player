@@ -77,7 +77,3 @@
     font-size: 0.7em;
     white-space: nowrap;
 }
-
-.hero-section:focus-within .search {
-    transform: translateY(-30vh);
-}
