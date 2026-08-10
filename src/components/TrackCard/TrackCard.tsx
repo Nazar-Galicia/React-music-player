@@ -5,7 +5,7 @@ interface TrackCardProps {
     image: string,
     title: string,
     artist: string,
-    duration: string,
+    duration: number,
 }
 
 const TrackCard: FC<TrackCardProps> = (props) => {
