@@ -36,7 +36,7 @@ const TracksList: FC<TracksListProps> = (props) => {
     }, [tracks]);
 
     return (
-        <ul className='tracks-list'>
+        <ul className={`tracks-list ${tracks?.results.length === 0 ? 'track-list-hidden' : null}`}>
             {
                 tracks && tracks.results.map((song) => (
                     <TrackCard

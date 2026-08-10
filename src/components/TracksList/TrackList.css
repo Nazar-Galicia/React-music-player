@@ -32,21 +32,24 @@
     backdrop-filter: blur(20px);
 }
 
-.music-list::-webkit-scrollbar {
+.tracks-list::-webkit-scrollbar {
     width: 5px;
 }
 
-.music-list::-webkit-scrollbar-track {
+.tracks-list::-webkit-scrollbar-track {
     background: transparent;
     margin: 14px 0;
 }
 
-.music-list::-webkit-scrollbar-thumb {
+.tracks-list::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, 0.2);
     border-radius: 999px;
     transition: background 0.3s ease;
 }
 
-.music-list::-webkit-scrollbar-thumb:hover {
+.tracks-list::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.4);
+}
+.track-list-hidden {
+    visibility: hidden;
 }
