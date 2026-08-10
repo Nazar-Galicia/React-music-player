@@ -7,6 +7,8 @@
     gap: 10px;
     list-style: none;
     overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
 
     background:
             radial-gradient(
@@ -28,4 +30,23 @@
             inset 0 1px 0 rgba(255, 255, 255, 0.05);
 
     backdrop-filter: blur(20px);
+}
+
+.music-list::-webkit-scrollbar {
+    width: 5px;
+}
+
+.music-list::-webkit-scrollbar-track {
+    background: transparent;
+    margin: 14px 0;
+}
+
+.music-list::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 999px;
+    transition: background 0.3s ease;
+}
+
+.music-list::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.4);
 }
