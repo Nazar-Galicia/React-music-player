@@ -1,17 +1,16 @@
 import {createContext, type FC, type ReactNode, useEffect, useMemo, useState} from "react";
-import {musicMetaAPI} from "../api/musicMetaAPI.ts";
+import {musicAPI} from "../api/musicAPI.ts";
 
 type TrackObject = {
-    trackId: number,
-    artworkUrl100: string,
-    trackName: string,
-    artistName: string,
-    trackTimeMillis: number
+    id: string,
+    artwork: {'150x150': string},
+    title: string,
+    user: {name: string},
+    duration: number
 }
 
 type TrackData = {
-    resultCount: number
-    results: TrackObject[]
+    data: TrackObject[]
 }
 
 interface MusicContextProps {
@@ -36,7 +35,7 @@ const MusicContextProvider: FC<MusicProviderProps> = (props) => {
 
     useEffect(() => {
         console.log(inputQuery)
-        musicMetaAPI.getSongData(inputQuery).then(data => {
+        musicAPI.getSongData(inputQuery).then(data => {
             setTracks(data)
         })
     }, [inputQuery]);

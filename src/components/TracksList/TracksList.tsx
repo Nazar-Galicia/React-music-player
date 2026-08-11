@@ -4,11 +4,11 @@ import TrackCard from "../TrackCard/TrackCard.tsx";
 import {MusicContext} from "../../context/MusicContext.tsx";
 
 type TrackObject = {
-    trackId: number,
-    artworkUrl100: string,
-    trackName: string,
-    artistName: string,
-    trackTimeMillis: number
+    id: string,
+    artwork: {'150x150': string},
+    title: string,
+    user: {name: string},
+    duration: number
 }
 
 const TracksList: FC = () => {
@@ -24,15 +24,15 @@ const TracksList: FC = () => {
     } = musicContext
 
     return (
-        <ul className={`tracks-list ${tracks?.results.length === 0 ? 'track-list-hidden' : null}`}>
+        <ul className={`tracks-list ${tracks?.data.length === 0 ? 'track-list-hidden' : null}`}>
             {
-                tracks && tracks.results.map((song: TrackObject) => (
+                tracks && tracks.data.map((song: TrackObject) => (
                     <TrackCard
-                        key={song.trackId}
-                        image={song.artworkUrl100}
-                        title={song.trackName}
-                        artist={song.artistName}
-                        duration={song.trackTimeMillis}
+                        key={song.id}
+                        image={song.artwork['150x150']}
+                        title={song.title}
+                        artist={song.user.name}
+                        duration={song.duration}
                     />
                 ))
             }
