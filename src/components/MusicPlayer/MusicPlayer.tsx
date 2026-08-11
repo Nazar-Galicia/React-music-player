@@ -23,7 +23,7 @@ const MusicPlayer: FC = () => {
 
     return (
         <div className='music-player'>
-            <MusicBackground />
+            <MusicBackground isIntro={isIntro} startSite={startSite} />
 
             <p className={`initial-text ${startSite || isIntro === 'true' ? 'initial-text-hide' : ''}`}>Click to start</p>
 

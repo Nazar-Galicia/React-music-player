@@ -11,7 +11,7 @@ interface Line {
     spY: number,
 }
 
-export const useMusicBackground = () => {
+export const useMusicBackground = (isIntro: string, startSite: boolean) => {
     const strokes: string[] = [
         "I’m running through the midnight rain",
         "Trying to find my way back home",
@@ -124,15 +124,32 @@ export const useMusicBackground = () => {
         };
     }
 
-    const [lines, setLines] = useState<Line[]>(Array.from({ length: 15 }, () => createLine(true)));
+    const [lines, setLines] = useState<Line[]>(isIntro !== 'false' ? Array.from({ length: 15 }, () => createLine(true)) : []);
 
     useEffect(() => {
         const timer = setInterval(() => {
-            setLines(prev => [...prev, createLine()]);
+            if (isIntro !== 'false') {
+                setLines(prev => [...prev, createLine()]);
+            } else {
+                clearInterval(timer);
+            }
         }, 1500);
 
         return () => clearInterval(timer);
     }, [])
+
+    useEffect(() => {
+        if (startSite) {
+            setTimeout(() => {
+                const timer = setInterval(() => {
+                    setLines(prev => [...prev, createLine()]);
+                }, 1500);
+
+                return () => clearInterval(timer);
+            }, 4000)
+        }
+
+    }, [startSite]);
 
     const removeLine = useCallback((id: string): void => {
         setLines(prev => prev.filter(line => line.id !== id));

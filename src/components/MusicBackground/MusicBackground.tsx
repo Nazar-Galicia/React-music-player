@@ -3,11 +3,21 @@ import {useMusicBackground} from "../../hooks/useMusicBackground.ts";
 import MusicBackgroundLine from "../MusicBackgroundLine/MusicBackgroundLine.tsx";
 import './MusicBackground.css'
 
-const MusicBackground: FC = () => {
+interface MusicBackgroundProps {
+    startSite: boolean;
+    isIntro: string;
+}
+
+const MusicBackground: FC<MusicBackgroundProps> = (props) => {
+    const {
+        startSite,
+        isIntro,
+    } = props
+
     const {
         lines,
         removeLine,
-    } = useMusicBackground()
+    } = useMusicBackground(isIntro, startSite)
 
     return (
         <div className='music-background'>
