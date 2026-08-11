@@ -60,7 +60,9 @@ const SearchInput: FC<SearchInputProps> = (props) => {
                 }}
             />
 
-            <kbd className="search__shortcut">X</kbd>
+            <kbd onClick={(() => {
+                setInputValue('')
+            })} className="search__shortcut">X</kbd>
         </div>
     )
 }
