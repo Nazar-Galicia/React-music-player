@@ -1,4 +1,4 @@
-import {useContext, useEffect, useRef, useState} from "react";
+import {useContext, useEffect, useRef} from "react";
 import SearchInput from "../SearchInput/SearchInput.tsx";
 import './HeroSection.css'
 import {Typewriter} from "react-simple-typewriter";
@@ -29,9 +29,6 @@ const HeroSection = () => {
         }
     }, [startSite])
 
-    const [inputQuery, setInputQuery] = useState<string>('')
-
-    // @ts-ignore
     return (
         <main ref={heroRef} className={`hero-section ${isIntro === 'false' ? 'hero-section-hidden' : null}`}>
             <h1 className='hero-heading'>

@@ -1,7 +1,18 @@
-import {type FC, useEffect, useRef, useState} from "react";
+import {type FC, useContext, useEffect, useRef, useState} from "react";
 import './SearchInput.css'
+import {MusicContext} from "../../context/MusicContext.tsx";
 
 const SearchInput: FC = () => {
+
+    const musicContext = useContext(MusicContext)
+
+    if (!musicContext) {
+        throw new Error('music context is missing')
+    }
+
+    const {
+        setInputQuery,
+    } = musicContext
 
     const [inputValue, setInputValue] = useState('')
 
@@ -9,7 +20,7 @@ const SearchInput: FC = () => {
 
     useEffect(() => {
         debounceTimer.current = setTimeout(() => {
-            setValue(inputValue)
+            setInputQuery(inputValue)
         }, 400)
     }, [inputValue]);
 

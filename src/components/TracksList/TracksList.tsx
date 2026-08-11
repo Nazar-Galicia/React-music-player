@@ -1,7 +1,7 @@
-import {type FC, useEffect, useState} from "react";
-import {musicMetaAPI} from "../../api/musicMetaAPI.ts";
+import {type FC, useContext} from "react";
 import './TrackList.css'
 import TrackCard from "../TrackCard/TrackCard.tsx";
+import {MusicContext} from "../../context/MusicContext.tsx";
 
 type TrackObject = {
     trackId: number,
@@ -10,29 +10,23 @@ type TrackObject = {
     artistName: string,
     trackTimeMillis: number
 }
-type TrackData = {
-    resultCount: number
-    results: TrackObject[]
-}
+
 const TracksList: FC = () => {
 
-    const [tracks, setTracks] = useState<TrackData | null>(null)
+    const musicContext = useContext(MusicContext)
 
-    useEffect(() => {
-        console.log(query)
-        musicMetaAPI.getSongData(query).then(data => {
-            setTracks(data)
-        })
-    }, [query]);
+    if (!musicContext) {
+        throw new Error('music context is missing')
+    }
 
-    useEffect(() => {
-        console.log(tracks)
-    }, [tracks]);
+    const {
+        tracks,
+    } = musicContext
 
     return (
         <ul className={`tracks-list ${tracks?.results.length === 0 ? 'track-list-hidden' : null}`}>
             {
-                tracks && tracks.results.map((song) => (
+                tracks && tracks.results.map((song: TrackObject) => (
                     <TrackCard
                         key={song.trackId}
                         image={song.artworkUrl100}
