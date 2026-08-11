@@ -1,14 +1,7 @@
 import {type FC, useEffect, useRef, useState} from "react";
 import './SearchInput.css'
 
-interface SearchInputProps {
-    setValue: (value: string) => void
-}
-
-const SearchInput: FC<SearchInputProps> = (props) => {
-    const {
-        setValue,
-    } = props
+const SearchInput: FC = () => {
 
     const [inputValue, setInputValue] = useState('')
 

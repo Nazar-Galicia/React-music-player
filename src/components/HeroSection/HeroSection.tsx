@@ -4,6 +4,7 @@ import './HeroSection.css'
 import {Typewriter} from "react-simple-typewriter";
 import TracksList from "../TracksList/TracksList.tsx";
 import {IntroContext} from "../../context/IntroContext.tsx";
+import MusicContextProvider from "../../context/MusicContext.tsx";
 
 
 const HeroSection = () => {
@@ -30,6 +31,7 @@ const HeroSection = () => {
 
     const [inputQuery, setInputQuery] = useState<string>('')
 
+    // @ts-ignore
     return (
         <main ref={heroRef} className={`hero-section ${isIntro === 'false' ? 'hero-section-hidden' : null}`}>
             <h1 className='hero-heading'>
@@ -51,8 +53,10 @@ const HeroSection = () => {
             </h1>
 
             <div className='search-container'>
-                <SearchInput setValue={setInputQuery} />
-                <TracksList query={inputQuery} />
+                <MusicContextProvider>
+                    <SearchInput />
+                    <TracksList />
+                </MusicContextProvider>
             </div>
         </main>
     )

@@ -3,9 +3,6 @@ import {musicMetaAPI} from "../../api/musicMetaAPI.ts";
 import './TrackList.css'
 import TrackCard from "../TrackCard/TrackCard.tsx";
 
-interface TracksListProps {
-    query: string;
-}
 type TrackObject = {
     trackId: number,
     artworkUrl100: string,
@@ -17,10 +14,7 @@ type TrackData = {
     resultCount: number
     results: TrackObject[]
 }
-const TracksList: FC<TracksListProps> = (props) => {
-    const {
-        query,
-    } = props
+const TracksList: FC = () => {
 
     const [tracks, setTracks] = useState<TrackData | null>(null)
 
