@@ -1,19 +1,22 @@
-import {type FC, useEffect, useRef, useState} from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import SearchInput from "../SearchInput/SearchInput.tsx";
 import './HeroSection.css'
 import {Typewriter} from "react-simple-typewriter";
 import TracksList from "../TracksList/TracksList.tsx";
+import {IntroContext} from "../../context/IntroContext.tsx";
 
-interface HeroSectionProps {
-    isIntro: string,
-    startSite: boolean,
-}
 
-const HeroSection: FC<HeroSectionProps> = (props) => {
+const HeroSection = () => {
+    const introContext = useContext(IntroContext)
+
+    if (!introContext) {
+        throw new Error('intro context is missing')
+    }
+
     const {
         isIntro,
         startSite,
-    } = props
+    } = introContext
 
     const heroRef = useRef<HTMLDivElement | null>(null)
 
