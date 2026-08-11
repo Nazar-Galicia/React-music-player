@@ -3,7 +3,7 @@ import './MusicPlayer.css'
 import Intro from "../Intro/Intro.tsx";
 import HeroSection from "../HeroSection/HeroSection.tsx";
 import MusicBackground from "../MusicBackground/MusicBackground.tsx";
-import IntroContextProvider, {IntroContext} from "../../context/IntroContext.tsx";
+import {IntroContext} from "../../context/IntroContext.tsx";
 
 const MusicPlayer: FC = () => {
 
@@ -20,15 +20,13 @@ const MusicPlayer: FC = () => {
 
     return (
         <div className='music-player'>
-            <IntroContextProvider>
-                <MusicBackground />
+            <MusicBackground />
 
-                <p className={`initial-text ${startSite || isIntro === 'true' ? 'initial-text-hide' : ''}`}>Click to start</p>
+            <p className={`initial-text ${startSite || isIntro === 'true' ? 'initial-text-hide' : ''}`}>Click to start</p>
 
-                <Intro />
+            <Intro />
 
-                <HeroSection />
-            </IntroContextProvider>
+            <HeroSection />
         </div>
     )
 }
