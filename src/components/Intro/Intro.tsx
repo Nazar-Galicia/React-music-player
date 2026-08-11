@@ -1,19 +1,21 @@
-import {type FC, useEffect, useRef} from "react";
+import {type FC, useContext, useEffect, useRef} from "react";
 import './Intro.css'
 import whisperVoice from '@/assets/sounds/whisper-listen-everywhere.mp3'
 import boomSwoosh from '@/assets/sounds/boom-swoosh.mp3'
 import shortBass from '@/assets/sounds/short-bass.mp3'
+import {IntroContext} from "../../context/IntroContext.tsx";
 
-interface IntroProps {
-    isStartSite: boolean;
-    isIntro: string,
-}
+const Intro: FC = () => {
+    const introContext = useContext(IntroContext)
 
-const Intro: FC<IntroProps> = (props) => {
+    if (!introContext) {
+        throw new Error('intro context is missing')
+    }
+
     const {
-        isStartSite,
         isIntro,
-    } = props
+        startSite,
+    } = introContext
 
     const whisper: HTMLAudioElement | null = new Audio(whisperVoice)
     const boom: HTMLAudioElement | null = new Audio(boomSwoosh)
@@ -23,7 +25,7 @@ const Intro: FC<IntroProps> = (props) => {
     const everywhereRef = useRef<HTMLSpanElement | null>(null)
 
     useEffect(() => {
-        if (isStartSite === true && isIntro === 'false') {
+        if (startSite === true && isIntro === 'false') {
             setTimeout(() => {
                 listenRef.current?.classList.remove('intro-word-hidden')
                 whisper?.play()
@@ -45,7 +47,7 @@ const Intro: FC<IntroProps> = (props) => {
                 }, 2000)
             }, 1000)
         }
-    }, [isStartSite])
+    }, [startSite])
 
     return (
         <p className='intro-title'>
