@@ -21,10 +21,11 @@ const TracksList: FC = () => {
 
     const {
         tracks,
+        inputQuery,
     } = musicContext
 
     return (
-        <ul className={`tracks-list ${tracks?.data.length === 0 ? 'track-list-hidden' : null}`}>
+        <ul className={`tracks-list ${!inputQuery.trim() ? 'track-list-hidden' : null}`}>
             {
                 tracks && tracks.data.map((song: TrackObject) => (
                     <TrackCard

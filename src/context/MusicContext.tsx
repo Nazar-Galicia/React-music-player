@@ -16,6 +16,7 @@ type TrackData = {
 interface MusicContextProps {
     tracks: TrackData | null,
     setInputQuery: (query: string) => void,
+    inputQuery: string,
 }
 
 interface MusicProviderProps {
@@ -35,9 +36,11 @@ const MusicContextProvider: FC<MusicProviderProps> = (props) => {
 
     useEffect(() => {
         console.log(inputQuery)
-        musicAPI.getSongData(inputQuery).then(data => {
-            setTracks(data)
-        })
+        if (inputQuery.trim()) {
+            musicAPI.getSongData(inputQuery).then(data => {
+                setTracks(data)
+            })
+        }
     }, [inputQuery]);
 
     useEffect(() => {
@@ -47,16 +50,19 @@ const MusicContextProvider: FC<MusicProviderProps> = (props) => {
     interface MusicContextData {
         setInputQuery: (query: string) => void
         tracks: TrackData | null,
+        inputQuery: string,
     }
 
     const value: MusicContextData = useMemo(() => {
         return {
             setInputQuery,
             tracks,
+            inputQuery,
         }
     }, [
         setInputQuery,
         tracks,
+        inputQuery,
     ])
 
     return (
