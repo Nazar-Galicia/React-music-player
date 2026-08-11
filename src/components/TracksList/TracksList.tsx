@@ -9,6 +9,7 @@ type TrackObject = {
     title: string,
     user: {name: string},
     duration: number
+    stream: {url: string},
 }
 
 const TracksList: FC = () => {
@@ -34,6 +35,7 @@ const TracksList: FC = () => {
                         title={song.title}
                         artist={song.user.name}
                         duration={song.duration}
+                        stream={song.stream}
                     />
                 ))
             }

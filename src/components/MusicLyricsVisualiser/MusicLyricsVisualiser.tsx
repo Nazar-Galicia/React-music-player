@@ -1,5 +1,5 @@
 import {type FC, useEffect} from "react";
-import {useParams} from "react-router-dom";
+import {useLocation, useParams} from "react-router-dom";
 
 const MusicLyricsVisualiser: FC = () => {
     const {
@@ -7,12 +7,18 @@ const MusicLyricsVisualiser: FC = () => {
         trackName,
     } = useParams()
 
+    const location = useLocation();
+
+    const { audioUrl } = location.state
+
     useEffect(() => {
         console.log(artist, trackName)
     }, [])
 
     return (
-        <div className='music-lyrics-visualisator'></div>
+        <div className='music-lyrics-visualisator'>
+            <audio src={audioUrl} autoPlay></audio>
+        </div>
     )
 }
 

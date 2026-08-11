@@ -7,6 +7,7 @@ interface TrackCardProps {
     title: string,
     artist: string,
     duration: number,
+    stream: {url: string}
 }
 
 const TrackCard: FC<TrackCardProps> = (props) => {
@@ -15,6 +16,7 @@ const TrackCard: FC<TrackCardProps> = (props) => {
         title,
         artist,
         duration,
+        stream,
     } = props
 
     const navigate = useNavigate()
@@ -23,7 +25,11 @@ const TrackCard: FC<TrackCardProps> = (props) => {
         <li
             className="music-card"
             onClick={() => {
-                navigate(`/lyrics/${artist}/${title}`)
+                navigate(`/lyrics/${artist}/${title}`, {
+                    state: {
+                        audioUrl: stream.url
+                    }
+                })
             }}
         >
             <img

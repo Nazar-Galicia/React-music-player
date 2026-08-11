@@ -7,6 +7,7 @@ type TrackObject = {
     title: string,
     user: {name: string},
     duration: number
+    stream: {url: string},
 }
 
 type TrackData = {
