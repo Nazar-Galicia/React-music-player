@@ -4,8 +4,8 @@
     left: 50%;
     transform: translate(-50%, -50%);
     color: white;
-    font-family: "Jersey15", sans-serif;
-    font-size: clamp(8vw, 10vw + 34px, 12vw);
+    font-family: "Bebas Neue", sans-serif;
+    font-size: clamp(8vw, 12vw + 34px, 14vw);
     width: 100%;
     text-align: center;
     z-index: -1;
