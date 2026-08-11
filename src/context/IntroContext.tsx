@@ -1,12 +1,17 @@
-import {type Context, createContext, type FC, type ReactNode, useEffect, useMemo, useState} from "react";
-
-const IntroContext: Context<{}> = createContext({});
+import {createContext, type FC, type ReactNode, useEffect, useMemo, useState} from "react";
 
 interface IntroContextProps {
-    children: ReactNode;
+    isIntro: string,
+    startSite: boolean,
 }
 
-const IntroContextProvider: FC<IntroContextProps> = (props) => {
+interface IntroProviderProps {
+    children: ReactNode,
+}
+
+export const IntroContext = createContext<IntroContextProps | null>(null);
+
+const IntroContextProvider: FC<IntroProviderProps> = (props) => {
     const {
         children,
     } = props
