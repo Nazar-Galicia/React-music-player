@@ -9,7 +9,7 @@ const Router: FC = () => {
         <BrowserRouter>
             <Routes>
                 <Route path='/' element={<Home />}/>
-                <Route path='/lyrics' element={<Lyrics />}/>
+                <Route path='/lyrics/:artist/:trackName' element={<Lyrics />}/>
             </Routes>
         </BrowserRouter>
     )

@@ -1,5 +1,6 @@
-import type {FC} from "react";
+import {type FC} from "react";
 import './TrackCard.css'
+import {useNavigate} from "react-router-dom";
 
 interface TrackCardProps {
     image: string,
@@ -16,8 +17,15 @@ const TrackCard: FC<TrackCardProps> = (props) => {
         duration,
     } = props
 
+    const navigate = useNavigate()
+
     return (
-        <li className="music-card">
+        <li
+            className="music-card"
+            onClick={() => {
+                navigate(`/lyrics/${artist}/${title}`)
+            }}
+        >
             <img
                 className="music-card__cover"
                 src={image}
@@ -30,12 +38,6 @@ const TrackCard: FC<TrackCardProps> = (props) => {
             </div>
 
             <span className="music-card__duration">{duration}</span>
-
-            <button className="music-card__play" aria-label="Play">
-                <svg viewBox="0 0 24 24">
-                    <path d="M8 5v14l11-7z"/>
-                </svg>
-            </button>
         </li>
     )
 }
