@@ -1,10 +1,13 @@
 import type {FC} from "react";
 import MusicPlayer from "../../components/MusicPlayer/MusicPlayer.tsx";
+import IntroContextProvider from "../../context/IntroContext.tsx";
 
 const Home: FC = () => {
     return (
         <div className='home'>
-            <MusicPlayer />
+            <IntroContextProvider>
+                <MusicPlayer />
+            </IntroContextProvider>
         </div>
     )
 }
