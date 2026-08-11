@@ -1,18 +1,20 @@
-import type {FC} from "react";
+import {type FC, useContext} from "react";
 import {useMusicBackground} from "../../hooks/useMusicBackground.ts";
 import MusicBackgroundLine from "../MusicBackgroundLine/MusicBackgroundLine.tsx";
 import './MusicBackground.css'
+import {IntroContext} from "../../context/IntroContext.tsx";
 
-interface MusicBackgroundProps {
-    startSite: boolean;
-    isIntro: string;
-}
+const MusicBackground: FC = () => {
+    const introContext = useContext(IntroContext)
 
-const MusicBackground: FC<MusicBackgroundProps> = (props) => {
+    if (!introContext) {
+        throw new Error('intro context is missing')
+    }
+
     const {
-        startSite,
         isIntro,
-    } = props
+        startSite,
+    } = introContext
 
     const {
         lines,
