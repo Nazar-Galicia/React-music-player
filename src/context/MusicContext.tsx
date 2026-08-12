@@ -10,7 +10,7 @@ type TrackObject = {
     stream: {url: string},
 }
 
-type TrackData = {
+export type TrackData = {
     data: TrackObject[]
 }
 

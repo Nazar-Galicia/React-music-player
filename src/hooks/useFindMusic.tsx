@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import {musicAPI} from "../api/musicAPI.ts";
+import type {TrackData} from "../context/MusicContext.tsx";
 
 export const useFindMusic = (query: string) => {
     const [tracks, setTracks] = useState<TrackData | null>(null)
