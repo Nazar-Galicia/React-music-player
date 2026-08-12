@@ -1,5 +1,5 @@
 import {createContext, type FC, type ReactNode, useEffect, useMemo, useState} from "react";
-import {musicAPI} from "../api/musicAPI.ts";
+import {useFindMusic} from "../hooks/useFindMusic.tsx";
 
 type TrackObject = {
     id: string,
@@ -33,16 +33,9 @@ const MusicContextProvider: FC<MusicProviderProps> = (props) => {
 
     const [inputQuery, setInputQuery] = useState<string>('')
 
-    const [tracks, setTracks] = useState<TrackData | null>(null)
-
-    useEffect(() => {
-        console.log(inputQuery)
-        if (inputQuery.trim()) {
-            musicAPI.getSongData(inputQuery).then(data => {
-                setTracks(data)
-            })
-        }
-    }, [inputQuery]);
+    const {
+        tracks,
+    } = useFindMusic(inputQuery)
 
     useEffect(() => {
         console.log(tracks)
