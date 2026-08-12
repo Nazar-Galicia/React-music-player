@@ -10,6 +10,7 @@ export const useFindMusic = (query: string) => {
         console.log(query)
         if (query.trim()) {
             musicAPI.getSongData(query).then(data => {
+                setTracks([])
                 data.data.forEach((song: TrackObject) => {
                     lyricsSearchAPI.searchLyrics(song.title).then((lyrics) => {
                         if (lyrics.length !== 0) {
