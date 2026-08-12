@@ -1,19 +1,10 @@
-import {type FC, useEffect} from "react";
-import {useLocation, useParams} from "react-router-dom";
+import {type FC} from "react";
+import {useLocation} from "react-router-dom";
 
 const MusicLyricsVisualiser: FC = () => {
-    const {
-        artist,
-        trackName,
-    } = useParams()
-
     const location = useLocation();
 
     const { audioUrl } = location.state
-
-    useEffect(() => {
-        console.log(artist, trackName)
-    }, [])
 
     return (
         <div className='music-lyrics-visualisator'>
