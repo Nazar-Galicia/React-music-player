@@ -1,7 +1,7 @@
 import {createContext, type FC, type ReactNode, useEffect, useMemo, useState} from "react";
 import {useFindMusic} from "../hooks/useFindMusic.tsx";
 
-type TrackObject = {
+export type TrackObject = {
     id: string,
     artwork: {'150x150': string},
     title: string,
