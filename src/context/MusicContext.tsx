@@ -32,9 +32,11 @@ const MusicContextProvider: FC<MusicProviderProps> = (props) => {
     const [tracks, setTracks] = useState<TrackObject[]>([])
 
     useEffect(() => {
-        musicAPI.getSongData(inputQuery, 1).then((data) => {
-            setTracks(data.data)
-        })
+        if (inputQuery.trim()) {
+            musicAPI.getSongData(inputQuery, 1).then((data) => {
+                setTracks(data.data)
+            })
+        }
     }, [inputQuery]);
 
     useEffect(() => {
