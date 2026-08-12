@@ -1,12 +1,10 @@
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 import {musicAPI} from "../api/musicAPI.ts";
-import type {TrackData, TrackObject} from "../context/MusicContext.tsx";
+import type {TrackObject} from "../context/MusicContext.tsx";
 import {lyricsSearchAPI} from "../api/lyricsSearchAPI.ts";
 
 export const useFindMusic = (query: string) => {
-    const [tracks, setTracks] = useState<TrackData | null>(null)
-
-    const [foundedSongs, setFoundedSongs] = useState<TrackObject[]>([])
+    const [tracks, setTracks] = useState<TrackObject[]>([])
 
     useEffect(() => {
         console.log(query)
@@ -15,7 +13,7 @@ export const useFindMusic = (query: string) => {
                 data.data.forEach((song: TrackObject) => {
                     lyricsSearchAPI.searchLyrics(song.title).then((lyrics) => {
                         if (lyrics.length !== 0) {
-                            setFoundedSongs(prev => [...prev, song])
+                            setTracks(prev => [...prev, song])
                         }
                     })
                 })
@@ -24,8 +22,8 @@ export const useFindMusic = (query: string) => {
     }, [query]);
 
     useEffect(() => {
-        console.log(foundedSongs);
-    }, [foundedSongs]);
+        console.log(tracks);
+    }, [tracks]);
 
     return {
         tracks,

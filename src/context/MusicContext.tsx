@@ -10,12 +10,8 @@ export type TrackObject = {
     stream: {url: string},
 }
 
-export type TrackData = {
-    data: TrackObject[]
-}
-
 interface MusicContextProps {
-    tracks: TrackData | null,
+    tracks: [],
     setInputQuery: (query: string) => void,
     inputQuery: string,
 }
@@ -43,7 +39,7 @@ const MusicContextProvider: FC<MusicProviderProps> = (props) => {
 
     interface MusicContextData {
         setInputQuery: (query: string) => void
-        tracks: TrackData | null,
+        tracks: [],
         inputQuery: string,
     }
 

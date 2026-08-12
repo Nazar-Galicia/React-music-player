@@ -28,7 +28,7 @@ const TracksList: FC = () => {
     return (
         <ul className={`tracks-list ${!inputQuery.trim() ? 'track-list-hidden' : null}`}>
             {
-                tracks && tracks.data.map((song: TrackObject) => (
+                tracks && tracks.map((song: TrackObject) => (
                     <TrackCard
                         key={song.id}
                         image={song.artwork['150x150']}
