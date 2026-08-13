@@ -33,7 +33,7 @@ const MusicContextProvider: FC<MusicProviderProps> = (props) => {
 
     useEffect(() => {
         if (inputQuery.trim()) {
-            musicAPI.getSongData(inputQuery, 1).then((data) => {
+            musicAPI.getSongData(inputQuery, 0).then((data) => {
                 setTracks(data.data)
             })
         }
