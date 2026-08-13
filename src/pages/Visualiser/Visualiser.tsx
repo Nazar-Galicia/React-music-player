@@ -1,7 +1,7 @@
 import type {FC} from "react";
 import MusicLyricsVisualiser from "../../components/MusicLyricsVisualiser/MusicLyricsVisualiser.tsx";
 
-const Lyrics: FC = () => {
+const Visualiser: FC = () => {
     return (
         <div className='lyrics'>
             <MusicLyricsVisualiser />
@@ -9,4 +9,4 @@ const Lyrics: FC = () => {
     )
 }
 
-export default Lyrics;
+export default Visualiser;
