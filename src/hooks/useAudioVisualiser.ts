@@ -1,6 +1,8 @@
 import {useEffect, useRef} from "react";
 
-export const useAudioVisualiser = () => {
+export const useAudioVisualiser = (audioUrl: string) => {
+    const audio = useRef<HTMLMediaElement | null>(null)
+
     const audioContext = useRef<AudioContext | null>(null)
     const audioAnalyser = useRef<AnalyserNode | null>(null)
     const audioFrequencyData = useRef<Uint8Array<ArrayBuffer> | null>(null)
@@ -8,70 +10,71 @@ export const useAudioVisualiser = () => {
     const audioSource = useRef<MediaElementAudioSourceNode | null>(null)
 
     useEffect(() => {
-        audioContext.current = new AudioContext()
-        audioAnalyser.current = audioContext.current.createAnalyser()
+        if (!audioUrl) return;
+
+        const newAudio = new Audio();
+        newAudio.crossOrigin = "anonymous";
+        newAudio.src = audioUrl;
+        newAudio.preload = "auto";
+
+        audio.current = newAudio;
+
+        const handleError = () => {
+            console.error("Помилка завантаження аудіо джерела:", newAudio.error);
+        };
+
+        newAudio.addEventListener('error', handleError);
+
+        const context = new AudioContext();
+        audioContext.current = context;
+
+        audioAnalyser.current = context.createAnalyser();
         audioAnalyser.current.fftSize = 2048;
         audioFrequencyData.current = new Uint8Array(audioAnalyser.current.frequencyBinCount);
 
-        console.log(visualiserRef.current, audioFrequencyData)
+        const source = context.createMediaElementSource(newAudio);
+        audioSource.current = source;
+
+        source.connect(audioAnalyser.current);
+        audioAnalyser.current.connect(context.destination);
+
+        newAudio.play().catch(error => {
+            console.warn("Автовідтворення заблоковано або перервано:", error.message);
+        });
+
+        let animationFrameId: number;
 
         if (visualiserRef.current) {
             const ctx = visualiserRef.current.getContext('2d');
-
             visualiserRef.current.width = window.innerWidth;
             visualiserRef.current.height = window.innerHeight;
 
             const centerX = visualiserRef.current.width / 2;
             const centerY = visualiserRef.current.height / 2;
-
             const baseRadius = 100;
-
             let smoothBass = 0;
 
-            if (ctx) {
-                ctx.fillStyle = 'white'
-                ctx.strokeStyle = '#ffffff'
+            const animate = () => {
+                const analyser = audioAnalyser.current;
+                const frequencyData = audioFrequencyData.current;
 
-                const animate = () => {
-                    const analyser = audioAnalyser.current;
-                    const frequencyData = audioFrequencyData.current;
-
-                    if (!analyser || !frequencyData || !visualiserRef.current) {
-                        requestAnimationFrame(animate);
-                        return;
-                    }
-
+                if (analyser && frequencyData && visualiserRef.current && ctx) {
                     analyser.getByteFrequencyData(frequencyData);
 
                     let bass = 0;
-
                     for (let i = 0; i < 15; i++) {
                         bass += frequencyData[i];
                     }
-
                     bass /= 15;
-
                     smoothBass += (bass - smoothBass) * 0.15;
 
                     const circleRadius = baseRadius + smoothBass * 0.4;
 
-                    ctx.clearRect(
-                        0,
-                        0,
-                        visualiserRef.current.width,
-                        visualiserRef.current.height
-                    );
+                    ctx.clearRect(0, 0, visualiserRef.current.width, visualiserRef.current.height);
 
                     ctx.fillStyle = '#ffffff';
-
                     ctx.beginPath();
-                    ctx.arc(
-                        centerX,
-                        centerY,
-                        circleRadius,
-                        0,
-                        Math.PI * 2
-                    );
+                    ctx.arc(centerX, centerY, circleRadius, 0, Math.PI * 2);
                     ctx.fill();
 
                     const bars = 200;
@@ -83,9 +86,7 @@ export const useAudioVisualiser = () => {
 
                     for (let i = 0; i < bars; i++) {
                         const value = frequencyData[i];
-
                         const angle = (i / bars) * Math.PI * 2;
-
                         const normalized = value / 255;
                         const barHeight = Math.pow(normalized, 1.5) * 250;
 
@@ -94,7 +95,6 @@ export const useAudioVisualiser = () => {
 
                         const x1 = centerX + Math.cos(angle) * startRadius;
                         const y1 = centerY + Math.sin(angle) * startRadius;
-
                         const x2 = centerX + Math.cos(angle) * endRadius;
                         const y2 = centerY + Math.sin(angle) * endRadius;
 
@@ -103,16 +103,18 @@ export const useAudioVisualiser = () => {
                         ctx.lineTo(x2, y2);
                         ctx.stroke();
                     }
+                }
 
-                    requestAnimationFrame(animate);
-                };
+                animationFrameId = requestAnimationFrame(animate);
+            };
 
-                animate()
-
-            }
+            animate();
         }
 
         return () => {
+            cancelAnimationFrame(animationFrameId);
+            newAudio.removeEventListener('error', handleError);
+
             audioSource.current?.disconnect();
             audioAnalyser.current?.disconnect();
 
@@ -120,10 +122,16 @@ export const useAudioVisualiser = () => {
             audioAnalyser.current = null;
             audioFrequencyData.current = null;
 
-            audioContext.current?.close();
-            audioContext.current = null;
+            if (audioContext.current && audioContext.current.state !== 'closed') {
+                audioContext.current?.close();
+                audioContext.current = null;
+            }
+
+            newAudio.pause();
+            newAudio.currentTime = 0;
+            audio.current = null;
         };
-    }, [])
+    }, [audioUrl]);
 
     return {
         visualiserRef,
