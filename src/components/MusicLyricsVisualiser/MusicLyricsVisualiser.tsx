@@ -1,4 +1,4 @@
-import {type FC, useEffect} from "react";
+import {type FC, useEffect, useRef} from "react";
 import {useLocation} from "react-router-dom";
 import {useAudioVisualiser} from "../../hooks/useAudioVisualiser.ts";
 
@@ -7,20 +7,29 @@ const MusicLyricsVisualiser: FC = () => {
 
     const { audioUrl } = location.state
 
-    const audio = new Audio(audioUrl)
+    const audio = useRef<HTMLAudioElement | null>(null)
+
+    useEffect(() => {
+        const newAudio = new Audio(audioUrl)
+
+        audio.current = newAudio
+
+        if (newAudio) {
+            newAudio.play().catch(error => console.log(error.message))
+        }
+
+        return () => {
+            if (newAudio) {
+                newAudio.pause()
+                newAudio.currentTime = 0
+                audio.current = null
+            }
+        }
+    }, []);
 
     const {
         visualiserRef,
     } = useAudioVisualiser()
-
-    useEffect(() => {
-        audio?.play()
-
-        return () => {
-            audio.pause()
-            audio.currentTime = 0
-        }
-    }, []);
 
     return (
         <div className='music-lyrics-visualisator'>
