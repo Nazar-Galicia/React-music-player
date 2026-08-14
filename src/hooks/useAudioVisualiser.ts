@@ -15,6 +15,27 @@ export const useAudioVisualiser = () => {
 
         console.log(visualiserRef.current, audioFrequencyData)
 
+        if (visualiserRef.current) {
+            const ctx = visualiserRef.current.getContext('2d');
+
+            visualiserRef.current.width = window.innerWidth;
+            visualiserRef.current.height = window.innerHeight;
+
+            if (ctx) {
+                ctx.fillStyle = 'white'
+                ctx.strokeStyle = '#ffffff'
+            }
+
+            const centerX = visualiserRef.current.width / 2;
+            const centerY = visualiserRef.current.height / 2;
+
+            const baseRadius = 100;
+
+            let smoothBass = 0;
+        }
+
+
+
         return () => {
             audioSource.current?.disconnect();
             audioAnalyser.current?.disconnect();
