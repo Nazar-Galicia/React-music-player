@@ -52,7 +52,7 @@ export const useAudioVisualiser = (audioUrl: string) => {
             const centerX = visualiserRef.current.width / 2;
             const centerY = visualiserRef.current.height / 2;
             const baseRadius = 100;
-            let smoothBass = 0;
+            let rotation = 0;
 
             const animate = () => {
                 const analyser = audioAnalyser.current;
@@ -66,9 +66,9 @@ export const useAudioVisualiser = (audioUrl: string) => {
                         bass += frequencyData[i];
                     }
                     bass /= 15;
-                    smoothBass += (bass - smoothBass) * 0.15;
+                    const normalizedBass = bass / 200;
 
-                    const circleRadius = baseRadius + smoothBass * 0.4;
+                    const circleRadius = baseRadius + normalizedBass * 100;
 
                     ctx.clearRect(0, 0, visualiserRef.current.width, visualiserRef.current.height);
 
@@ -86,9 +86,9 @@ export const useAudioVisualiser = (audioUrl: string) => {
 
                     for (let i = 0; i < bars; i++) {
                         const value = frequencyData[i];
-                        const angle = (i / bars) * Math.PI * 2;
+                        const angle = (i / bars) * Math.PI * 2 + rotation;
                         const normalized = value / 255;
-                        const barHeight = Math.pow(normalized, 1.5) * 250;
+                        const barHeight = Math.pow(normalized, 2.5) * 600;
 
                         const startRadius = circleRadius + barDistance;
                         const endRadius = startRadius + barHeight;
@@ -105,6 +105,7 @@ export const useAudioVisualiser = (audioUrl: string) => {
                     }
                 }
 
+                rotation += 0.002
                 animationFrameId = requestAnimationFrame(animate);
             };
 
