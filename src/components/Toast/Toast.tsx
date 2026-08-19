@@ -2,7 +2,10 @@ import type {FC} from "react";
 
 const Toast: FC = () => {
     return (
-        <div className='toast'></div>
+        <div className='toast'>
+            <p className='toast__meassgae'>Error</p>
+            <button className='toast__retry-button'>Retry</button>
+        </div>
     )
 }
 
