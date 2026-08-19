@@ -1,4 +1,5 @@
 import type {FC} from "react";
+import './Toast.css'
 
 const Toast: FC = () => {
     return (

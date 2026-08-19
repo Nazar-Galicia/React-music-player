@@ -1,0 +1,90 @@
+.toast {
+    position: fixed;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    font-family: "Jersey15", sans-serif;
+
+    width: clamp(280px, 32vw, 520px);
+    min-height: clamp(90px, 8vw, 130px);
+
+    padding: clamp(18px, 2vw, 28px);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: clamp(16px, 2vw, 30px);
+
+    box-sizing: border-box;
+
+    background: rgba(15, 15, 15, 0.94);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: clamp(8px, 0.7vw, 12px);
+
+    box-shadow:
+            0 0 clamp(30px, 5vw, 80px) rgba(255, 255, 255, 0.06),
+            0 15px 40px rgba(0, 0, 0, 0.6);
+
+    backdrop-filter: blur(10px);
+
+    z-index: 1000;
+}
+
+
+.toast__meassgae {
+    margin: 0;
+
+    font-size: clamp(24px, 3vw, 70px);
+    line-height: 1.2;
+    font-weight: 700;
+
+    color: #fff;
+
+    text-shadow:
+            0 0 10px rgba(255, 255, 255, 0.15);
+
+    overflow-wrap: anywhere;
+}
+
+
+.toast__retry-button {
+    flex-shrink: 0;
+
+    width: clamp(65px, 8vw, 10vw);
+    height: clamp(32px, 4vw, 7vw);
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: clamp(5px, 0.4vw, 7px);
+
+    background: #161616;
+    color: #aaa;
+
+    font-family: inherit;
+    font-size: clamp(24px, 2vw, 100px);
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+            color 0.15s ease,
+            background 0.15s ease,
+            border-color 0.15s ease,
+            box-shadow 0.15s ease;
+}
+
+
+.toast__retry-button:hover {
+    color: #fff;
+    background: #202020;
+
+    border-color: rgba(255, 255, 255, 0.25);
+
+    box-shadow:
+            0 0 15px rgba(255, 255, 255, 0.08);
+}
+
+
+.toast__retry-button:active {
+    transform: translateY(1px);
+}
