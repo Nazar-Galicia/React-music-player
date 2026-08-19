@@ -4,13 +4,14 @@ import '@/styles/fonts.css'
 import '@/styles/global.css'
 import Router from "./Router.tsx";
 import Toast from "./components/Toast/Toast.tsx";
+import ToasterProvider from "./context/ToasterContext.tsx";
 
 const App: FC = () => {
   return (
-      <>
-        <Toast />
-        <Router />
-      </>
+      <ToasterProvider>
+          <Toast />
+          <Router />
+      </ToasterProvider>
   )
 }
 
