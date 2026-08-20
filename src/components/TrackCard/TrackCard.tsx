@@ -27,7 +27,8 @@ const TrackCard: FC<TrackCardProps> = (props) => {
             onClick={() => {
                 navigate(`/visualiser/${artist}/${title}`, {
                     state: {
-                        audioUrl: stream.url
+                        audioUrl: stream.url,
+                        thumbnail: image,
                     }
                 })
             }}

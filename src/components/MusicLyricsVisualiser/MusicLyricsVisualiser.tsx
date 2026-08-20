@@ -1,11 +1,15 @@
 import {type FC} from "react";
 import {useLocation} from "react-router-dom";
 import {useAudioVisualiser} from "../../hooks/useAudioVisualiser.ts";
+import './MusicVisualiser.css'
 
 const MusicLyricsVisualiser: FC = () => {
     const location = useLocation();
 
-    const { audioUrl } = location.state
+    const {
+        audioUrl,
+        thumbnail,
+    } = location.state
 
     const {
         visualiserRef,
@@ -13,7 +17,8 @@ const MusicLyricsVisualiser: FC = () => {
 
     return (
         <div className='music-lyrics-visualisator'>
-            <canvas ref={visualiserRef}></canvas>
+            <img className='song-thumbnail' src={thumbnail} alt="song-thumbnail"/>
+            <canvas className='visualiser__canvas' ref={visualiserRef}></canvas>
         </div>
     )
 }
