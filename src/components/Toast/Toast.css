@@ -1,8 +1,6 @@
 .toast {
     position: fixed;
-    top: 50px;
     left: 50%;
-    transform: translateX(-50%);
 
     font-family: "Jersey15", sans-serif;
 
@@ -29,6 +27,16 @@
     backdrop-filter: blur(10px);
 
     z-index: 1000;
+
+    transition: all 0.3s ease-in-out;
+
+    opacity: 0;
+    transform: translate(-50%, 0);
+}
+.toast.active {
+    opacity: 1;
+    transform: translate(-50%, 50px);
+    pointer-events: all;
 }
 
 
