@@ -1,6 +1,9 @@
 import {useEffect, useRef} from "react";
+import {useToaster} from "./useToaster.ts";
 
 export const useAudioVisualiser = (audioUrl: string) => {
+    const { showMessage } = useToaster()
+
     const audio = useRef<HTMLMediaElement | null>(null)
 
     const audioContext = useRef<AudioContext | null>(null)
@@ -21,6 +24,7 @@ export const useAudioVisualiser = (audioUrl: string) => {
 
         const handleError = () => {
             console.error("Помилка завантаження аудіо джерела:", newAudio.error);
+            showMessage("Error audio source", 3000);
         };
 
         newAudio.addEventListener('error', handleError);
