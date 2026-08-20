@@ -24,7 +24,9 @@ export const useAudioVisualiser = (audioUrl: string) => {
 
         const handleError = () => {
             console.error("Помилка завантаження аудіо джерела:", newAudio.error);
-            showMessage("Error audio source", 3000);
+            showMessage("Error audio source", (): void => {
+                console.log('swaga')
+            });
         };
 
         newAudio.addEventListener('error', handleError);

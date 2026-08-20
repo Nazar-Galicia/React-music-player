@@ -1,4 +1,4 @@
-import {createContext, type FC, type ReactNode, type RefObject, useCallback, useMemo, useRef} from "react";
+import {createContext, type FC, type ReactNode, type RefObject, useCallback, useMemo, useRef, useState} from "react";
 
 interface ToasterProviderProps {
     children: ReactNode,
@@ -6,7 +6,9 @@ interface ToasterProviderProps {
 
 interface ToasterData {
     toasterRef: RefObject<HTMLDivElement | null>,
-    showMessage: (message: string, delay?: number) => void
+    showMessage: (message: string, retryHandler?: () => void, delay?: number) => void,
+    toasterRetryButtonRef: RefObject<HTMLButtonElement | null>,
+    toasterMessage: string,
 }
 
 export const ToasterContext = createContext<ToasterData | null>(null);
@@ -17,16 +19,25 @@ const ToasterProvider: FC<ToasterProviderProps> = (props) => {
     } = props
 
     const toasterRef = useRef<HTMLDivElement | null>(null)
+    const toasterRetryButtonRef = useRef<HTMLButtonElement | null>(null)
+    const [toasterMessage, setToasterMessage] = useState<string>('')
 
-    const showMessage = useCallback((message: string, delay: number = 1000): void => {
+    const showMessage = useCallback((message: string, retryHandler?: () => void, delay: number = 1000): void => {
         if (toasterRef.current) {
             toasterRef.current.classList.add('active')
 
-            console.log(message)
+            if (retryHandler && toasterRetryButtonRef.current) {
+                toasterRetryButtonRef.current.onclick = () => {
+                    retryHandler()
+                    toasterRef.current && toasterRef.current.classList.remove('active')
+                }
+            } else {
+                setTimeout(() => {
+                    toasterRef.current && toasterRef.current.classList.remove('active')
+                }, delay)
+            }
 
-            setTimeout(() => {
-                toasterRef.current && toasterRef.current.classList.remove('active')
-            }, delay)
+            setToasterMessage(message)
         }
     }, [])
 
@@ -34,10 +45,14 @@ const ToasterProvider: FC<ToasterProviderProps> = (props) => {
         return {
             toasterRef,
             showMessage,
+            toasterRetryButtonRef,
+            toasterMessage,
         }
     }, [
         toasterRef,
         showMessage,
+        toasterRetryButtonRef,
+        toasterMessage,
     ])
 
     return (
