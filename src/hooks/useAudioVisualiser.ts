@@ -92,8 +92,8 @@ export const useAudioVisualiser = (audioUrl: string) => {
                     ctx.clearRect(0, 0, visualiserRef.current.width, visualiserRef.current.height);
 
                     ctx.save();
-                    ctx.shadowColor = `rgba(255, 255, 255, ${Math.min(1, normalizedBass + 0.2)})`;
-                    ctx.shadowBlur = normalizedBass * 50;
+                    ctx.shadowColor = `rgba(255, 255, 255, ${Math.min(1, normalizedBass + 0.5)})`;
+                    ctx.shadowBlur = normalizedBass * 60;
 
                     ctx.fillStyle = '#ffffff';
                     ctx.beginPath();
@@ -105,14 +105,16 @@ export const useAudioVisualiser = (audioUrl: string) => {
                     const barDistance = 10;
                     const barWidth = 4;
 
-                    ctx.strokeStyle = '#ffffff';
                     ctx.lineWidth = barWidth;
+                    ctx.lineCap = 'round';
 
                     for (let i = 0; i < bars; i++) {
                         const value = frequencyData[i];
                         const angle = (i / bars) * Math.PI * 2 + rotation;
                         const normalized = value / 255;
                         const barHeight = Math.pow(normalized, 2.5) * 600;
+
+                        if (barHeight <= 0) continue;
 
                         const startRadius = circleRadius + barDistance;
                         const endRadius = startRadius + barHeight;
@@ -121,6 +123,13 @@ export const useAudioVisualiser = (audioUrl: string) => {
                         const y1 = centerY + Math.sin(angle) * startRadius;
                         const x2 = centerX + Math.cos(angle) * endRadius;
                         const y2 = centerY + Math.sin(angle) * endRadius;
+
+                        const gradient = ctx.createLinearGradient(x1, y1, x2, y2);
+                        gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
+                        gradient.addColorStop(0.6, 'rgba(255, 255, 255, 0.8)');
+                        gradient.addColorStop(1, 'rgba(255, 255, 255, 0.05)');
+
+                        ctx.strokeStyle = gradient;
 
                         ctx.beginPath();
                         ctx.moveTo(x1, y1);
