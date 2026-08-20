@@ -4,6 +4,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     width: clamp(5vw, 8vw, 22vw);
+    height: auto;
     z-index: 200;
 }
 .visualiser__canvas {

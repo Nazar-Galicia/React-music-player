@@ -14,6 +14,8 @@ export const useAudioVisualiser = (audioUrl: string) => {
 
     const retryAttempts = useRef<number>(0)
 
+    const songThumbnailRef = useRef<HTMLImageElement | null>(null)
+
     useEffect(() => {
         if (!audioUrl) return;
 
@@ -83,6 +85,9 @@ export const useAudioVisualiser = (audioUrl: string) => {
                     const normalizedBass = bass / 200;
 
                     const circleRadius = baseRadius + normalizedBass * 100;
+                    if(songThumbnailRef.current) {
+                        songThumbnailRef.current.style.width = `clamp(${normalizedBass * 2}vw, ${normalizedBass * 10}vw, ${normalizedBass * 12}vw)`
+                    }
 
                     ctx.clearRect(0, 0, visualiserRef.current.width, visualiserRef.current.height);
 
@@ -150,5 +155,6 @@ export const useAudioVisualiser = (audioUrl: string) => {
 
     return {
         visualiserRef,
+        songThumbnailRef,
     }
 }

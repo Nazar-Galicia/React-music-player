@@ -13,11 +13,12 @@ const MusicLyricsVisualiser: FC = () => {
 
     const {
         visualiserRef,
+        songThumbnailRef,
     } = useAudioVisualiser(audioUrl)
 
     return (
         <div className='music-lyrics-visualisator'>
-            <img className='song-thumbnail' src={thumbnail} alt="song-thumbnail"/>
+            <img ref={songThumbnailRef} className='song-thumbnail' src={thumbnail} alt="song-thumbnail"/>
             <canvas className='visualiser__canvas' ref={visualiserRef}></canvas>
         </div>
     )
