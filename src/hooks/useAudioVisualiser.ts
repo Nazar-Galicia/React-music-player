@@ -12,6 +12,8 @@ export const useAudioVisualiser = (audioUrl: string) => {
     const visualiserRef = useRef<HTMLCanvasElement | null>(null)
     const audioSource = useRef<MediaElementAudioSourceNode | null>(null)
 
+    const retryAttempts = useRef<number>(0)
+
     useEffect(() => {
         if (!audioUrl) return;
 
@@ -23,11 +25,19 @@ export const useAudioVisualiser = (audioUrl: string) => {
         audio.current = newAudio;
 
         const handleError = () => {
-            console.error("Помилка завантаження аудіо джерела:", newAudio.error);
-            showMessage("Error audio source", () => {});
+            if (retryAttempts.current < 3) {
+                showMessage("Error audio source", () => {
+                    newAudio.load()
+                    retryAttempts.current += 1
+                });
+            } else {
+                showMessage("Cannot load audio. Please try latter or try another song")
+                retryAttempts.current = 0
+            }
         };
 
         newAudio.addEventListener('error', handleError);
+        newAudio.addEventListener('canplay', () => retryAttempts.current = 0)
 
         const context = new AudioContext();
         audioContext.current = context;
