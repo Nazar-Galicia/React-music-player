@@ -60,6 +60,15 @@ export const useAudioVisualiser = (audioUrl: string) => {
 
         let animationFrameId: number;
 
+        interface Ripple {
+            radius: number;
+            maxRadius: number;
+            alpha: number;
+            lineWidth: number;
+        }
+
+        const ripples: Ripple[] = [];
+
         if (visualiserRef.current) {
             const ctx = visualiserRef.current.getContext('2d');
             visualiserRef.current.width = window.innerWidth;
@@ -69,6 +78,7 @@ export const useAudioVisualiser = (audioUrl: string) => {
             const centerY = visualiserRef.current.height / 2;
             const baseRadius = 100;
             let rotation = 0;
+            let isPeak = false;
 
             const animate = () => {
                 const analyser = audioAnalyser.current;
@@ -90,6 +100,39 @@ export const useAudioVisualiser = (audioUrl: string) => {
                     }
 
                     ctx.clearRect(0, 0, visualiserRef.current.width, visualiserRef.current.height);
+
+                    if (normalizedBass > 1.2) {
+                        if (!isPeak) {
+                            ripples.push({
+                                radius: circleRadius,
+                                maxRadius: Math.max(visualiserRef.current.width, visualiserRef.current.height) * 0.7,
+                                alpha: 0.6,
+                                lineWidth: 2 + normalizedBass * 3
+                            });
+                            isPeak = true;
+                        }
+                    } else {
+                        if (normalizedBass < 1.2) {
+                            isPeak = false;
+                        }
+                    }
+
+                    for (let i = ripples.length - 1; i >= 0; i--) {
+                        const ripple = ripples[i];
+
+                        ctx.beginPath();
+                        ctx.arc(centerX, centerY, ripple.radius, 0, Math.PI * 2);
+                        ctx.strokeStyle = `rgba(255, 255, 255, ${ripple.alpha})`;
+                        ctx.lineWidth = ripple.lineWidth;
+                        ctx.stroke();
+
+                        ripple.radius += 3 + normalizedBass * 4;
+                        ripple.alpha -= 0.006;
+
+                        if (ripple.alpha <= 0 || ripple.radius >= ripple.maxRadius) {
+                            ripples.splice(i, 1);
+                        }
+                    }
 
                     ctx.save();
                     ctx.shadowColor = `rgba(255, 255, 255, ${Math.min(1, normalizedBass + 0.5)})`;
