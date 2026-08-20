@@ -2,19 +2,19 @@ import {useEffect, useRef} from "react";
 import {useToaster} from "./useToaster.ts";
 
 export const useAudioVisualiser = (audioUrl: string) => {
-    const { showMessage } = useToaster()
+    const { showMessage } = useToaster();
 
-    const audio = useRef<HTMLMediaElement | null>(null)
+    const audio = useRef<HTMLMediaElement | null>(null);
 
-    const audioContext = useRef<AudioContext | null>(null)
-    const audioAnalyser = useRef<AnalyserNode | null>(null)
-    const audioFrequencyData = useRef<Uint8Array<ArrayBuffer> | null>(null)
-    const visualiserRef = useRef<HTMLCanvasElement | null>(null)
-    const audioSource = useRef<MediaElementAudioSourceNode | null>(null)
+    const audioContext = useRef<AudioContext | null>(null);
+    const audioAnalyser = useRef<AnalyserNode | null>(null);
+    const audioFrequencyData = useRef<Uint8Array<ArrayBuffer> | null>(null);
+    const visualiserRef = useRef<HTMLCanvasElement | null>(null);
+    const audioSource = useRef<MediaElementAudioSourceNode | null>(null);
 
-    const retryAttempts = useRef<number>(0)
+    const retryAttempts = useRef<number>(0);
 
-    const songThumbnailRef = useRef<HTMLImageElement | null>(null)
+    const songThumbnailRef = useRef<HTMLImageElement | null>(null);
 
     useEffect(() => {
         if (!audioUrl) return;
@@ -29,17 +29,17 @@ export const useAudioVisualiser = (audioUrl: string) => {
         const handleError = () => {
             if (retryAttempts.current < 3) {
                 showMessage("Error audio source", () => {
-                    newAudio.load()
-                    retryAttempts.current += 1
+                    newAudio.load();
+                    retryAttempts.current += 1;
                 });
             } else {
-                showMessage("Cannot load audio. Please try latter or try another song")
-                retryAttempts.current = 0
+                showMessage("Cannot load audio. Please try latter or try another song");
+                retryAttempts.current = 0;
             }
         };
 
         newAudio.addEventListener('error', handleError);
-        newAudio.addEventListener('canplay', () => retryAttempts.current = 0)
+        newAudio.addEventListener('canplay', () => retryAttempts.current = 0);
 
         const context = new AudioContext();
         audioContext.current = context;
@@ -86,15 +86,20 @@ export const useAudioVisualiser = (audioUrl: string) => {
 
                     const circleRadius = baseRadius + normalizedBass * 100;
                     if(songThumbnailRef.current) {
-                        songThumbnailRef.current.style.width = `clamp(${normalizedBass * 2}vw, ${normalizedBass * 10}vw, ${normalizedBass * 12}vw)`
+                        songThumbnailRef.current.style.width = `clamp(${normalizedBass * 2}vw, ${normalizedBass * 10}vw, ${normalizedBass * 12}vw)`;
                     }
 
                     ctx.clearRect(0, 0, visualiserRef.current.width, visualiserRef.current.height);
+
+                    ctx.save();
+                    ctx.shadowColor = `rgba(255, 255, 255, ${Math.min(1, normalizedBass + 0.2)})`;
+                    ctx.shadowBlur = normalizedBass * 50;
 
                     ctx.fillStyle = '#ffffff';
                     ctx.beginPath();
                     ctx.arc(centerX, centerY, circleRadius, 0, Math.PI * 2);
                     ctx.fill();
+                    ctx.restore();
 
                     const bars = 200;
                     const barDistance = 10;
@@ -124,7 +129,7 @@ export const useAudioVisualiser = (audioUrl: string) => {
                     }
                 }
 
-                rotation += 0.002
+                rotation += 0.002;
                 animationFrameId = requestAnimationFrame(animate);
             };
 
@@ -156,5 +161,5 @@ export const useAudioVisualiser = (audioUrl: string) => {
     return {
         visualiserRef,
         songThumbnailRef,
-    }
-}
+    };
+};
