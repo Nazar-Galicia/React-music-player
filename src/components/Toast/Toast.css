@@ -39,18 +39,19 @@
     pointer-events: all;
 }
 
-
 .toast__meassgae {
     margin: 0;
 
     font-size: clamp(24px, 3vw, 70px);
     line-height: 1.2;
-    font-weight: 700;
 
     color: #fff;
 
     text-shadow:
             0 0 10px rgba(255, 255, 255, 0.15);
+
+    width: 100%;
+    text-align: center;
 
     overflow-wrap: anywhere;
 }
@@ -80,7 +81,10 @@
             border-color 0.15s ease,
             box-shadow 0.15s ease;
 }
-
+.toast__retry-button.hidden {
+    display: none;
+    pointer-events: none;
+}
 
 .toast__retry-button:hover {
     color: #fff;

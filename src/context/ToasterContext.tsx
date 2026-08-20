@@ -25,6 +25,7 @@ const ToasterProvider: FC<ToasterProviderProps> = (props) => {
     const showMessage = useCallback((message: string, retryHandler?: () => void, delay: number = 1000): void => {
         if (toasterRef.current) {
             toasterRef.current.classList.add('active')
+            toasterRetryButtonRef.current && toasterRetryButtonRef.current.classList.remove('hidden')
 
             if (retryHandler && toasterRetryButtonRef.current) {
                 toasterRetryButtonRef.current.onclick = () => {
@@ -32,6 +33,7 @@ const ToasterProvider: FC<ToasterProviderProps> = (props) => {
                     toasterRef.current && toasterRef.current.classList.remove('active')
                 }
             } else {
+                toasterRetryButtonRef.current && toasterRetryButtonRef.current.classList.add('hidden')
                 setTimeout(() => {
                     toasterRef.current && toasterRef.current.classList.remove('active')
                 }, delay)
