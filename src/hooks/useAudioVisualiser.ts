@@ -1,6 +1,10 @@
 import { useEffect, useRef } from "react";
 import { useToaster } from "./useToaster.ts";
 import {VisualiserCONFIG as CONFIG} from "../config/visualiserConfig.ts";
+import {drawBars} from "../visualiser/drawBars.ts";
+import {drawParticles} from "../visualiser/drawParticless.ts";
+import {drawRipples} from "../visualiser/drawRipples.ts";
+import {drawCircle} from "../visualiser/drawCircle.ts";
 
 interface Particle {
     x: number;
@@ -149,127 +153,74 @@ export const useAudioVisualiser = (audioUrl: string) => {
                     analyser.getByteFrequencyData(frequencyData);
 
                     let bass = 0;
+
                     for (let i = 0; i < 15; i++) {
                         bass += frequencyData[i];
                     }
+
                     bass /= 15;
+
                     const normalizedBass = bass / 200;
 
-                    const circleRadius = (CONFIG.BASE_CIRCLE_RADIUS + normalizedBass * CONFIG.BASS_RADIUS_BOOST) * scale;
+                    const circleRadius =
+                        (
+                            CONFIG.BASE_CIRCLE_RADIUS +
+                            normalizedBass * CONFIG.BASS_RADIUS_BOOST
+                        ) * scale;
 
-                    if (songThumbnailRef.current) {
-                        songThumbnailRef.current.style.width = `clamp(${normalizedBass * 2}vw, ${normalizedBass * 10}vw, ${normalizedBass * 12}vw)`;
-                    }
+                    ctx.clearRect(
+                        0,
+                        0,
+                        canvas.width,
+                        canvas.height
+                    );
 
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    drawParticles({
+                        ctx,
+                        particles,
+                        normalizedBass,
+                        scale,
+                        centerX,
+                        centerY,
+                        maxDist,
+                    });
 
-                    const bassBoostSpeed = normalizedBass * 2 * scale;
-                    const bassBoostAlpha = Math.min(1, normalizedBass * 0.5);
+                    drawRipples({
+                        ctx,
+                        ripples,
+                        normalizedBass,
+                        circleRadius,
+                        centerX,
+                        centerY,
+                        farthestCornerDist,
+                        scale,
+                        isPeak,
+                    });
 
-                    for (let i = 0; i < particles.length; i++) {
-                        const p = particles[i];
+                    drawCircle({
+                        ctx,
+                        centerX,
+                        centerY,
+                        radius: circleRadius,
+                        normalizedBass,
+                        scale,
+                    });
 
-                        p.dist += p.speed * scale + bassBoostSpeed;
-
-                        if (p.dist > maxDist) {
-                            p.dist = 0;
-                            p.angle = Math.random() * Math.PI * 2;
-                        }
-
-                        p.x = centerX + Math.cos(p.angle) * p.dist;
-                        p.y = centerY + Math.sin(p.angle) * p.dist;
-
-                        const fadeFactor = 1 - p.dist / maxDist;
-                        const currentAlpha = Math.min(1, (p.alpha + bassBoostAlpha) * fadeFactor);
-
-                        ctx.fillStyle = `rgba(255, 255, 255, ${currentAlpha})`;
-                        ctx.beginPath();
-                        ctx.arc(p.x, p.y, (p.size + normalizedBass) * scale, 0, Math.PI * 2);
-                        ctx.fill();
-                    }
-
-                    if (normalizedBass > CONFIG.RIPPLE_BASS_THRESHOLD) {
-                        if (!isPeak) {
-                            ripples.push({
-                                radius: circleRadius,
-                                maxRadius: farthestCornerDist,
-                                alpha: CONFIG.RIPPLE_START_ALPHA,
-                                lineWidth: (CONFIG.RIPPLE_LINE_WIDTH_BASE + normalizedBass * CONFIG.RIPPLE_LINE_WIDTH_BASS_MULTIPLIER) * scale
-                            });
-                            isPeak = true;
-                        }
-                    } else {
-                        if (normalizedBass < CONFIG.RIPPLE_BASS_THRESHOLD) {
-                            isPeak = false;
-                        }
-                    }
-
-                    for (let i = ripples.length - 1; i >= 0; i--) {
-                        const ripple = ripples[i];
-
-                        ctx.beginPath();
-                        ctx.arc(centerX, centerY, ripple.radius, 0, Math.PI * 2);
-                        ctx.strokeStyle = `rgba(255, 255, 255, ${ripple.alpha})`;
-                        ctx.lineWidth = ripple.lineWidth;
-                        ctx.stroke();
-
-                        ripple.radius += (CONFIG.RIPPLE_SPEED_BASE + normalizedBass * CONFIG.RIPPLE_SPEED_BASS_MULTIPLIER) * scale;
-                        ripple.alpha -= CONFIG.RIPPLE_ALPHA_DECAY;
-
-                        if (ripple.alpha <= 0 || ripple.radius >= ripple.maxRadius) {
-                            ripples.splice(i, 1);
-                        }
-                    }
-
-                    ctx.save();
-                    ctx.shadowColor = `rgba(255, 255, 255, ${Math.min(1, normalizedBass + 0.5)})`;
-                    ctx.shadowBlur = normalizedBass * 60 * scale;
-
-                    ctx.fillStyle = '#ffffff';
-                    ctx.beginPath();
-                    ctx.arc(centerX, centerY, circleRadius, 0, Math.PI * 2);
-                    ctx.fill();
-                    ctx.restore();
-
-                    const bars = CONFIG.BARS_COUNT;
-                    const barDistance = CONFIG.BAR_DISTANCE * scale;
-                    const barWidth = CONFIG.BAR_WIDTH * scale;
-
-                    ctx.lineWidth = barWidth;
-                    ctx.lineCap = 'round';
-
-                    for (let i = 0; i < bars; i++) {
-                        const value = frequencyData[i];
-                        const angle = (i / bars) * Math.PI * 2 + rotation;
-                        const normalized = value / 255;
-                        const barHeight = Math.pow(normalized, CONFIG.BAR_HEIGHT_POWER) * CONFIG.BAR_HEIGHT_MULTIPLIER * scale;
-
-                        if (barHeight <= 0) continue;
-
-                        const startRadius = circleRadius + barDistance;
-                        const endRadius = startRadius + barHeight;
-
-                        const x1 = centerX + Math.cos(angle) * startRadius;
-                        const y1 = centerY + Math.sin(angle) * startRadius;
-                        const x2 = centerX + Math.cos(angle) * endRadius;
-                        const y2 = centerY + Math.sin(angle) * endRadius;
-
-                        const gradient = ctx.createLinearGradient(x1, y1, x2, y2);
-                        gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
-                        gradient.addColorStop(0.6, 'rgba(255, 255, 255, 0.8)');
-                        gradient.addColorStop(1, 'rgba(255, 255, 255, 0.05)');
-
-                        ctx.strokeStyle = gradient;
-
-                        ctx.beginPath();
-                        ctx.moveTo(x1, y1);
-                        ctx.lineTo(x2, y2);
-                        ctx.stroke();
-                    }
+                    drawBars({
+                        ctx,
+                        frequencyData,
+                        centerX,
+                        centerY,
+                        circleRadius,
+                        rotation,
+                        scale,
+                    });
                 }
 
                 rotation += CONFIG.ROTATION_SPEED;
-                animationFrameId = requestAnimationFrame(animate);
+
+                animationFrameId =
+                    requestAnimationFrame(animate);
             };
 
             animate();
