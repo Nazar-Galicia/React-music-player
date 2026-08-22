@@ -162,6 +162,10 @@ export const useAudioVisualiser = (audioUrl: string) => {
 
                     const normalizedBass = bass / 200;
 
+                    if (songThumbnailRef.current) {
+                        songThumbnailRef.current.style.width = `clamp(${normalizedBass * 2}vw, ${normalizedBass * 10}vw, ${normalizedBass * 12}vw)`;
+                    }
+
                     const circleRadius =
                         (
                             CONFIG.BASE_CIRCLE_RADIUS +
