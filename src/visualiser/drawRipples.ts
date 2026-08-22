@@ -16,8 +16,9 @@ interface DrawRipplesParams {
     centerY: number;
     farthestCornerDist: number;
     scale: number;
-    isPeak: boolean;
 }
+
+let isPeak = false;
 
 export const drawRipples = ({
                                 ctx,
@@ -28,24 +29,22 @@ export const drawRipples = ({
                                 centerY,
                                 farthestCornerDist,
                                 scale,
-                                isPeak,
                             }: DrawRipplesParams) => {
 
-    if (
-        normalizedBass > CONFIG.RIPPLE_BASS_THRESHOLD &&
-        !isPeak
-    ) {
-        ripples.push({
-            radius: circleRadius,
-            maxRadius: farthestCornerDist,
-            alpha: CONFIG.RIPPLE_START_ALPHA,
-            lineWidth:
-                (
-                    CONFIG.RIPPLE_LINE_WIDTH_BASE +
-                    normalizedBass *
-                    CONFIG.RIPPLE_LINE_WIDTH_BASS_MULTIPLIER
-                ) * scale
-        });
+    if (normalizedBass > CONFIG.RIPPLE_BASS_THRESHOLD) {
+        if (!isPeak) {
+            ripples.push({
+                radius: circleRadius,
+                maxRadius: farthestCornerDist,
+                alpha: CONFIG.RIPPLE_START_ALPHA,
+                lineWidth: (CONFIG.RIPPLE_LINE_WIDTH_BASE + normalizedBass * CONFIG.RIPPLE_LINE_WIDTH_BASS_MULTIPLIER) * scale
+            });
+            isPeak = true;
+        }
+    } else {
+        if (normalizedBass < CONFIG.RIPPLE_BASS_THRESHOLD) {
+            isPeak = false;
+        }
     }
 
     for (let i = ripples.length - 1; i >= 0; i--) {
