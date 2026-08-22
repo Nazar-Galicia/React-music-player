@@ -1,5 +1,15 @@
-import {useEffect, useRef} from "react";
-import {useToaster} from "./useToaster.ts";
+import { useEffect, useRef } from "react";
+import { useToaster } from "./useToaster.ts";
+
+interface Particle {
+    x: number;
+    y: number;
+    angle: number;
+    dist: number;
+    speed: number;
+    size: number;
+    alpha: number;
+}
 
 export const useAudioVisualiser = (audioUrl: string) => {
     const { showMessage } = useToaster();
@@ -76,6 +86,23 @@ export const useAudioVisualiser = (audioUrl: string) => {
 
             const centerX = visualiserRef.current.width / 2;
             const centerY = visualiserRef.current.height / 2;
+            const maxDist = Math.hypot(centerX, centerY);
+
+            const particleCount = 150;
+            const particles: Particle[] = [];
+
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: centerX,
+                    y: centerY,
+                    angle: Math.random() * Math.PI * 2,
+                    dist: Math.random() * maxDist,
+                    speed: 0.5 + Math.random() * 1.5,
+                    size: 1 + Math.random() * 2,
+                    alpha: 0.2 + Math.random() * 0.8
+                });
+            }
+
             const baseRadius = 100;
             let rotation = 0;
             let isPeak = false;
@@ -100,6 +127,31 @@ export const useAudioVisualiser = (audioUrl: string) => {
                     }
 
                     ctx.clearRect(0, 0, visualiserRef.current.width, visualiserRef.current.height);
+
+                    const bassBoostSpeed = normalizedBass * 2;
+                    const bassBoostAlpha = Math.min(1, normalizedBass * 0.5);
+
+                    for (let i = 0; i < particles.length; i++) {
+                        const p = particles[i];
+
+                        p.dist += p.speed + bassBoostSpeed;
+
+                        if (p.dist > maxDist) {
+                            p.dist = 0;
+                            p.angle = Math.random() * Math.PI * 2;
+                        }
+
+                        p.x = centerX + Math.cos(p.angle) * p.dist;
+                        p.y = centerY + Math.sin(p.angle) * p.dist;
+
+                        const fadeFactor = 1 - p.dist / maxDist;
+                        const currentAlpha = Math.min(1, (p.alpha + bassBoostAlpha) * fadeFactor);
+
+                        ctx.fillStyle = `rgba(255, 255, 255, ${currentAlpha})`;
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.size + normalizedBass, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
 
                     if (normalizedBass > 1.15) {
                         if (!isPeak) {
