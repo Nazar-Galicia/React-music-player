@@ -101,7 +101,7 @@ export const useAudioVisualiser = (audioUrl: string) => {
 
                     ctx.clearRect(0, 0, visualiserRef.current.width, visualiserRef.current.height);
 
-                    if (normalizedBass > 1.2) {
+                    if (normalizedBass > 1.15) {
                         if (!isPeak) {
                             ripples.push({
                                 radius: circleRadius,
@@ -112,7 +112,7 @@ export const useAudioVisualiser = (audioUrl: string) => {
                             isPeak = true;
                         }
                     } else {
-                        if (normalizedBass < 1.2) {
+                        if (normalizedBass < 1.15) {
                             isPeak = false;
                         }
                     }
