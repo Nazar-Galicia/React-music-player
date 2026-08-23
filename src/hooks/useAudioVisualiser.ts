@@ -34,8 +34,6 @@ export const useAudioVisualiser = (audioUrl: string) => {
     const visualiserRef = useRef<HTMLCanvasElement | null>(null);
     const audioSource = useRef<MediaElementAudioSourceNode | null>(null);
 
-    const retryAttempts = useRef<number>(0);
-
     const songThumbnailRef = useRef<HTMLImageElement | null>(null);
 
     let animationFrameId: number;
@@ -51,19 +49,13 @@ export const useAudioVisualiser = (audioUrl: string) => {
         audio.current = newAudio;
 
         const handleError = () => {
-            if (retryAttempts.current < 3) {
-                showMessage("Audio source error", () => {
-                    newAudio.load();
-                    retryAttempts.current += 1;
-                });
-            } else {
-                showMessage("Cannot load audio. Please try again or choose another song");
-                retryAttempts.current = 0;
-            }
+            showMessage("Audio source error", () => {
+                newAudio.load();
+            });
         };
 
         newAudio.addEventListener('error', handleError);
-        newAudio.addEventListener('canplay', () => retryAttempts.current = 0);
+        // newAudio.addEventListener('canplay', () => retryAttempts.current = 0);
 
         const context = new AudioContext();
         audioContext.current = context;

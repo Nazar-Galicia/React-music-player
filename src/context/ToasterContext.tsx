@@ -35,6 +35,8 @@ const ToasterProvider: FC<ToasterProviderProps> = (props) => {
 
     const location = useLocation()
 
+    const retryAttempts = useRef<number>(0);
+
     useEffect(() => {
         toasterRef.current && toasterRef.current.classList.remove('active')
     }, [location]);
@@ -46,14 +48,25 @@ const ToasterProvider: FC<ToasterProviderProps> = (props) => {
 
             if (retryHandler && toasterRetryButtonRef.current) {
                 toasterRetryButtonRef.current.onclick = () => {
-                    retryHandler()
-                    toasterRef.current && toasterRef.current.classList.remove('active')
+                    if (retryAttempts.current < 3) {
+                        retryHandler()
+                        toasterRef.current && toasterRef.current.classList.remove('active')
+                        retryAttempts.current += 1;
+                        console.log(retryAttempts.current)
+                    }
                 }
             } else {
                 toasterRetryButtonRef.current && toasterRetryButtonRef.current.classList.add('hidden')
                 setTimeout(() => {
                     toasterRef.current && toasterRef.current.classList.remove('active')
                 }, delay)
+            }
+
+            if (retryAttempts.current >= 3) {
+                toasterRef.current && toasterRef.current.classList.remove('active')
+                retryAttempts.current = 0;
+
+                showMessage('cannot handle error')
             }
 
             setToasterMessage(message)
