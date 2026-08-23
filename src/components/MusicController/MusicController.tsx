@@ -37,6 +37,14 @@ const MusicController: FC = () => {
         }
     }, [])
 
+    const restartAudio = useCallback(() => {
+        if (audio.current) {
+            audio.current.currentTime = 0;
+            audio.current.play()
+            setIsPlaying(true)
+        }
+    }, [])
+
     useEffect(() => {
         if (audio.current) {
             !isPlaying ? audio.current.pause() : audio.current.play()
@@ -86,7 +94,7 @@ const MusicController: FC = () => {
                     <small>10</small>
                 </button>
 
-                <button className="music-controller__button music-controller__button--restart">
+                <button onClick={restartAudio} className="music-controller__button music-controller__button--restart">
                     ↻
                 </button>
 
