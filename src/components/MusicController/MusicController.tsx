@@ -1,9 +1,33 @@
-import type {FC} from "react";
+import {type FC, useEffect, useRef} from "react";
 import './MusicController.css'
 
 const MusicController: FC = () => {
+    let hideTimer: number;
+    const controllerRef = useRef<HTMLDivElement | null>(null)
+
+    const mouseMoveHandler = (event: MouseEvent) => {
+        const mouseY = event.clientY
+        clearTimeout(hideTimer)
+
+        if (mouseY >= 700) {
+            controllerRef.current && controllerRef.current.classList.add('active')
+        } else {
+            hideTimer = setTimeout(() => {
+                controllerRef.current && controllerRef.current.classList.remove('active')
+            }, 600)
+        }
+    }
+
+    useEffect(() => {
+        document.addEventListener('mousemove', mouseMoveHandler)
+
+        return () => {
+            document.removeEventListener('mousemove', mouseMoveHandler)
+        }
+    }, []);
+
     return (
-        <div className="music-controller">
+        <div ref={controllerRef} className="music-controller">
             <div className="music-controller__timeline">
                 <span className="music-controller__time">0:00</span>
 
