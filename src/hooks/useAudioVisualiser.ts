@@ -133,7 +133,6 @@ export const useAudioVisualiser = (audioUrl: string) => {
             }
 
             let rotation = 0;
-            let isPeak = false;
 
             let resizeTimeout: ReturnType<typeof setTimeout> | null = null;
             const handleResize = () => {
@@ -198,7 +197,6 @@ export const useAudioVisualiser = (audioUrl: string) => {
                         centerY,
                         farthestCornerDist,
                         scale,
-                        isPeak,
                     });
 
                     drawCircle({

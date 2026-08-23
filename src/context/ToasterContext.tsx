@@ -1,4 +1,15 @@
-import {createContext, type FC, type ReactNode, type RefObject, useCallback, useMemo, useRef, useState} from "react";
+import {
+    createContext,
+    type FC,
+    type ReactNode,
+    type RefObject,
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState
+} from "react";
+import {useLocation} from "react-router-dom";
 
 interface ToasterProviderProps {
     children: ReactNode,
@@ -21,6 +32,12 @@ const ToasterProvider: FC<ToasterProviderProps> = (props) => {
     const toasterRef = useRef<HTMLDivElement | null>(null)
     const toasterRetryButtonRef = useRef<HTMLButtonElement | null>(null)
     const [toasterMessage, setToasterMessage] = useState<string>('')
+
+    const location = useLocation()
+
+    useEffect(() => {
+        toasterRef.current && toasterRef.current.classList.remove('active')
+    }, [location]);
 
     const showMessage = useCallback((message: string, retryHandler?: () => void, delay: number = 1000): void => {
         if (toasterRef.current) {
