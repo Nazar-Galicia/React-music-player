@@ -1,10 +1,11 @@
-import {createContext, type FC, type ReactNode, type Ref, useMemo} from "react";
+import {createContext, type FC, type ReactNode, type Ref, type RefObject, useMemo} from "react";
 import {useAudioVisualiser} from "../hooks/useAudioVisualiser.ts";
 import {useLocation} from "react-router-dom";
 
 interface AudioContextProps {
     visualiserRef: Ref<HTMLCanvasElement | null>,
     songThumbnailRef: Ref<HTMLImageElement | null>,
+    audio: RefObject<HTMLAudioElement | null>
 }
 interface AudioProviderProps {
     children: ReactNode,
@@ -26,16 +27,19 @@ const AudioContextProvider: FC<AudioProviderProps> = (props) => {
     const {
         visualiserRef,
         songThumbnailRef,
+        audio,
     } = useAudioVisualiser(audioUrl)
 
     const value: AudioContextProps = useMemo(() => {
         return {
             visualiserRef,
             songThumbnailRef,
+            audio,
         }
     }, [
         visualiserRef,
         songThumbnailRef,
+        audio,
     ])
 
     return (

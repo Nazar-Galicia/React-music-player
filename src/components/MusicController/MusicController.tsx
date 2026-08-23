@@ -1,8 +1,13 @@
-import {type FC, useEffect, useRef} from "react";
+import {type FC, useCallback, useEffect, useRef, useState} from "react";
 import './MusicController.css'
+import {useAudio} from "../../hooks/useAudio.ts";
+import playIcon from '../../assets/icons/playAudio.svg'
+import pauseIcon from '../../assets/icons/pauseAudio.svg'
 
 const MusicController: FC = () => {
     let hideTimer: number;
+    const { audio } = useAudio()
+
     const controllerRef = useRef<HTMLDivElement | null>(null)
 
     const mouseMoveHandler = (event: MouseEvent) => {
@@ -23,6 +28,20 @@ const MusicController: FC = () => {
             controllerRef.current && controllerRef.current.classList.remove('active-controller')
         }, 600)
     }
+
+    const [isPlaying, setIsPlaying] = useState<boolean>(true)
+
+    const playAudio = useCallback(() => {
+        if (audio.current) {
+            setIsPlaying(prev => !prev)
+        }
+    }, [])
+
+    useEffect(() => {
+        if (audio.current) {
+            !isPlaying ? audio.current.pause() : audio.current.play()
+        }
+    }, [isPlaying]);
 
     useEffect(() => {
         document.addEventListener('mousemove', mouseMoveHandler)
@@ -58,8 +77,8 @@ const MusicController: FC = () => {
                     <small>10</small>
                 </button>
 
-                <button className="music-controller__button music-controller__button--play">
-                    ▶
+                <button onClick={playAudio} className="music-controller__button music-controller__button--play">
+                    <img src={isPlaying ? pauseIcon : playIcon} alt=""/>
                 </button>
 
                 <button className="music-controller__button music-controller__button--seek">

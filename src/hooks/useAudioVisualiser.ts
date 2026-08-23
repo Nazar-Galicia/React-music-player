@@ -247,5 +247,6 @@ export const useAudioVisualiser = (audioUrl: string) => {
     return {
         visualiserRef,
         songThumbnailRef,
+        audio,
     };
 };
