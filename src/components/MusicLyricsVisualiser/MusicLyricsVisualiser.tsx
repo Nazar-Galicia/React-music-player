@@ -3,6 +3,7 @@ import {useLocation} from "react-router-dom";
 import {useAudioVisualiser} from "../../hooks/useAudioVisualiser.ts";
 import './MusicVisualiser.css'
 import MusicController from "../MusicController/MusicController.tsx";
+import AudioContextProvider from "../../context/AudioContext.tsx";
 
 const MusicLyricsVisualiser: FC = () => {
     const location = useLocation();
@@ -18,11 +19,13 @@ const MusicLyricsVisualiser: FC = () => {
     } = useAudioVisualiser(audioUrl)
 
     return (
-        <div className='music-lyrics-visualisator'>
-            <img ref={songThumbnailRef} className='song-thumbnail' src={thumbnail} alt="song-thumbnail"/>
-            <canvas className='visualiser__canvas' ref={visualiserRef}></canvas>
-            <MusicController />
-        </div>
+        <AudioContextProvider>
+            <div className='music-lyrics-visualisator'>
+                <img ref={songThumbnailRef} className='song-thumbnail' src={thumbnail} alt="song-thumbnail"/>
+                <canvas className='visualiser__canvas' ref={visualiserRef}></canvas>
+                <MusicController />
+            </div>
+        </AudioContextProvider>
     )
 }
 
