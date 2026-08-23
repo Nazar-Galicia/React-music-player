@@ -18,11 +18,19 @@ const MusicController: FC = () => {
         }
     }
 
+    const mouseLeaveHandler = () => {
+        hideTimer = setTimeout(() => {
+            controllerRef.current && controllerRef.current.classList.remove('active-controller')
+        }, 600)
+    }
+
     useEffect(() => {
         document.addEventListener('mousemove', mouseMoveHandler)
+        document.addEventListener('mouseleave', mouseLeaveHandler)
 
         return () => {
             document.removeEventListener('mousemove', mouseMoveHandler)
+            document.removeEventListener('mouseleave', mouseLeaveHandler)
         }
     }, []);
 
