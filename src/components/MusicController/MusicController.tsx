@@ -9,7 +9,7 @@ const MusicController: FC = () => {
         const mouseY = event.clientY
         clearTimeout(hideTimer)
 
-        if (mouseY >= 700) {
+        if (mouseY >= window.innerHeight * 0.8) {
             controllerRef.current && controllerRef.current.classList.add('active')
         } else {
             hideTimer = setTimeout(() => {
@@ -27,7 +27,7 @@ const MusicController: FC = () => {
     }, []);
 
     return (
-        <div ref={controllerRef} className="music-controller">
+        <div ref={controllerRef} className="music-controller active">
             <div className="music-controller__timeline">
                 <span className="music-controller__time">0:00</span>
 
