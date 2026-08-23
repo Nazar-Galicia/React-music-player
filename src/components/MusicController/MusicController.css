@@ -24,7 +24,7 @@
     pointer-events: none;
 }
 
-.music-controller.active {
+.music-controller.active-controller {
     opacity: 1;
     pointer-events: all;
 }
