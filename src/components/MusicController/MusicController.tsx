@@ -1,4 +1,5 @@
 import type {FC} from "react";
+import './MusicController.css'
 
 const MusicController: FC = () => {
     return (

@@ -1,0 +1,187 @@
+.music-controller {
+    width: clamp(280px, 40vw, 600px);
+    padding: clamp(12px, 1.2vw, 18px) clamp(14px, 1.6vw, 24px);
+
+    position: absolute;
+    z-index: 200;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+    margin-bottom: clamp(20px, 3vw, 50px);
+
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: clamp(12px, 1.2vw, 18px);
+
+    backdrop-filter: blur(12px);
+
+    color: white;
+
+    box-shadow:
+            0 0 clamp(20px, 2vw, 30px) rgba(255, 255, 255, 0.025),
+            inset 0 0 clamp(12px, 1.3vw, 20px) rgba(255, 255, 255, 0.02);
+}
+
+.music-controller__timeline {
+    display: flex;
+    align-items: center;
+    gap: clamp(7px, 0.8vw, 12px);
+}
+
+.music-controller__time {
+    min-width: clamp(27px, 2.2vw, 32px);
+
+    color: rgba(255, 255, 255, 0.5);
+
+    font-family: monospace;
+    font-size: clamp(9px, 0.65vw, 11px);
+}
+
+.music-controller__time:last-child {
+    text-align: right;
+}
+
+.music-controller__range {
+    flex: 1;
+
+    height: clamp(2px, 0.15vw, 3px);
+
+    appearance: none;
+    -webkit-appearance: none;
+
+    background: rgba(255, 255, 255, 0.18);
+
+    border-radius: 10px;
+
+    outline: none;
+}
+
+.music-controller__range::-webkit-slider-thumb {
+    appearance: none;
+    -webkit-appearance: none;
+
+    width: clamp(7px, 0.6vw, 9px);
+    height: clamp(7px, 0.6vw, 9px);
+
+    border: none;
+    border-radius: 50%;
+
+    background: white;
+
+    box-shadow:
+            0 0 clamp(5px, 0.5vw, 8px) rgba(255, 255, 255, 0.8),
+            0 0 clamp(12px, 1.2vw, 18px) rgba(255, 255, 255, 0.3);
+
+    cursor: pointer;
+}
+
+.music-controller__range::-moz-range-thumb {
+    width: clamp(7px, 0.6vw, 9px);
+    height: clamp(7px, 0.6vw, 9px);
+
+    border: none;
+    border-radius: 50%;
+
+    background: white;
+
+    box-shadow:
+            0 0 clamp(5px, 0.5vw, 8px) rgba(255, 255, 255, 0.8),
+            0 0 clamp(12px, 1.2vw, 18px) rgba(255, 255, 255, 0.3);
+
+    cursor: pointer;
+}
+
+.music-controller__controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: clamp(9px, 1vw, 16px);
+
+    margin-top: clamp(12px, 1.2vw, 18px);
+}
+
+.music-controller__button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 0;
+
+    color: white;
+
+    background: rgba(255, 255, 255, 0.04);
+
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+
+    cursor: pointer;
+
+    transition:
+            background 0.2s ease,
+            transform 0.2s ease,
+            box-shadow 0.2s ease;
+}
+
+.music-controller__button:hover {
+    background: rgba(255, 255, 255, 0.1);
+
+    box-shadow: 0 0 clamp(12px, 1.3vw, 20px) rgba(255, 255, 255, 0.08);
+
+    transform: translateY(-2px);
+}
+
+.music-controller__button:active {
+    transform: scale(0.9);
+}
+
+.music-controller__button--seek {
+    position: relative;
+
+    width: clamp(32px, 2.8vw, 42px);
+    height: clamp(32px, 2.8vw, 42px);
+
+    font-size: clamp(15px, 1.3vw, 19px);
+}
+
+.music-controller__button--seek small {
+    position: absolute;
+
+    font-family: monospace;
+    font-size: clamp(5px, 0.5vw, 7px);
+
+    transform: translateY(1px);
+}
+
+.music-controller__button--play {
+    width: clamp(44px, 3.8vw, 58px);
+    height: clamp(44px, 3.8vw, 58px);
+
+    background: white;
+    color: black;
+
+    border: none;
+
+    font-size: clamp(14px, 1.2vw, 18px);
+
+    box-shadow:
+            0 0 clamp(10px, 1vw, 15px) rgba(255, 255, 255, 0.35),
+            0 0 clamp(25px, 2.3vw, 35px) rgba(255, 255, 255, 0.08);
+}
+
+.music-controller__button--play:hover {
+    background: white;
+
+    box-shadow:
+            0 0 clamp(14px, 1.3vw, 20px) rgba(255, 255, 255, 0.5),
+            0 0 clamp(35px, 3vw, 45px) rgba(255, 255, 255, 0.12);
+}
+
+.music-controller__button--restart {
+    width: clamp(32px, 2.8vw, 42px);
+    height: clamp(32px, 2.8vw, 42px);
+
+    margin-left: clamp(4px, 0.8vw, 12px);
+
+    font-size: clamp(16px, 1.4vw, 21px);
+}
