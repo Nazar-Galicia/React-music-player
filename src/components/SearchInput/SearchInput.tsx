@@ -14,13 +14,14 @@ const SearchInput: FC = () => {
         setInputQuery,
     } = musicContext
 
-    const [inputValue, setInputValue] = useState('')
+    const [inputValue, setInputValue] = useState(sessionStorage.getItem('searchQuery') || '')
 
     let debounceTimer = useRef<number | null>(null);
 
     useEffect(() => {
         debounceTimer.current = setTimeout(() => {
             setInputQuery(inputValue)
+            sessionStorage.setItem('searchQuery', inputValue)
         }, 400)
     }, [inputValue]);
 
