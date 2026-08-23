@@ -24,7 +24,7 @@ interface Ripple {
 }
 
 export const useAudioVisualiser = (audioUrl: string) => {
-    const { showMessage } = useToaster();
+    const { showMessage, isError } = useToaster();
 
     const audio = useRef<HTMLMediaElement | null>(null);
 
@@ -49,13 +49,14 @@ export const useAudioVisualiser = (audioUrl: string) => {
         audio.current = newAudio;
 
         const handleError = () => {
-            showMessage("Audio source error", () => {
+            isError.current = true;
+            showMessage("Audio source error", 1000, () => {
                 newAudio.load();
             });
         };
 
         newAudio.addEventListener('error', handleError);
-        // newAudio.addEventListener('canplay', () => retryAttempts.current = 0);
+        newAudio.addEventListener('canplay', () => isError.current = true);
 
         const context = new AudioContext();
         audioContext.current = context;
