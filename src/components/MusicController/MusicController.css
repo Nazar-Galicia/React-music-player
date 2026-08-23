@@ -5,9 +5,7 @@
     position: absolute;
     z-index: 200;
     left: 50%;
-    transform: translateX(-50%);
     bottom: 0;
-    margin-bottom: clamp(20px, 3vw, 50px);
 
     background: rgba(255, 255, 255, 0.035);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -20,12 +18,18 @@
     box-shadow:
             0 0 clamp(20px, 2vw, 30px) rgba(255, 255, 255, 0.025),
             inset 0 0 clamp(12px, 1.3vw, 20px) rgba(255, 255, 255, 0.02);
-    opacity: 0;
+
     pointer-events: none;
+
+    transition: all 0.3s ease-in-out;
+
+    opacity: 0;
+    transform: translate(-50%, 0);
 }
 
 .music-controller.active-controller {
     opacity: 1;
+    transform: translate(-50%, -50px);
     pointer-events: all;
 }
 
