@@ -1,4 +1,4 @@
-import {type FC, useCallback, useEffect, useRef, useState} from "react";
+import {type ChangeEvent, type FC, useCallback, useEffect, useRef, useState} from "react";
 import './MusicController.css'
 import {useAudio} from "../../hooks/useAudio.ts";
 import playIcon from '../../assets/icons/playAudio.svg'
@@ -52,9 +52,9 @@ const MusicController: FC = () => {
         }
     }, [isPlaying]);
 
-    let frameId: number;
-
     const [songProgress, setSongProgress] = useState<number>(0)
+
+    const frameId = useRef<number>(0);
 
     const handleSongCurrentTime = () => {
         if (
@@ -67,14 +67,30 @@ const MusicController: FC = () => {
             setSongProgress((audio.current.currentTime / duration) * 100)
         }
 
-        frameId = requestAnimationFrame(handleSongCurrentTime)
+        frameId.current = requestAnimationFrame(handleSongCurrentTime)
+    }
+
+    const changeSongCurrentTime = (event: ChangeEvent<HTMLInputElement>) => {
+        const value = Number(event.target.value);
+        setSongProgress(value);
+
+        if (audio.current && duration > 0) {
+            audio.current.currentTime = (value / 100) * duration;
+
+            if (audio.current.paused) {
+                audio.current.play()
+                setIsPlaying(true)
+            }
+        }
     }
 
     useEffect(() => {
-        handleSongCurrentTime()
+        frameId.current = requestAnimationFrame(handleSongCurrentTime)
         console.log(duration)
         return () => {
-            cancelAnimationFrame(frameId)
+            if (frameId.current !== null) {
+                cancelAnimationFrame(frameId.current);
+            }
         }
     }, []);
 
@@ -98,8 +114,9 @@ const MusicController: FC = () => {
                     type="range"
                     min="0"
                     max="100"
+                    step="0.01"
                     value={songProgress}
-                    readOnly
+                    onChange={changeSongCurrentTime}
                 />
 
                 <span className="music-controller__time">3:42</span>
