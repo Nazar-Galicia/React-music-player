@@ -133,7 +133,20 @@ const MusicController: FC = () => {
 
             <div className="music-controller__controls">
 
-                <button className="music-controller__button music-controller__button--seek">
+                <button
+                    onClick={() => {
+                        if (audio.current) {
+                            audio.current.currentTime -= 10
+
+                            if (audio.current.paused) {
+                                audio.current.play().then(() => {
+                                    setIsPlaying(true)
+                                })
+                            }
+                        }
+                    }}
+                    className="music-controller__button music-controller__button--seek"
+                >
                     <span>↶</span>
                     <small>10</small>
                 </button>
@@ -142,7 +155,20 @@ const MusicController: FC = () => {
                     <img src={isPlaying ? pauseIcon : playIcon} alt=""/>
                 </button>
 
-                <button className="music-controller__button music-controller__button--seek">
+                <button
+                    onClick={() => {
+                        if (audio.current) {
+                            audio.current.currentTime += 10
+
+                            if (audio.current.paused) {
+                                audio.current.play().then(() => {
+                                    setIsPlaying(true)
+                                })
+                            }
+                        }
+                    }}
+                    className="music-controller__button music-controller__button--seek"
+                >
                     <span>↷</span>
                     <small>10</small>
                 </button>
