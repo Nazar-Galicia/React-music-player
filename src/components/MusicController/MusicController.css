@@ -114,8 +114,9 @@
 
 .music-controller__button {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
 
     padding: 0;
 
@@ -157,11 +158,10 @@
 
 .music-controller__button--seek small {
     position: absolute;
+    top: 20px;
 
     font-family: monospace;
     font-size: clamp(5px, 0.5vw, 7px);
-
-    transform: translateY(1px);
 }
 
 .music-controller__button--play {
@@ -195,4 +195,25 @@
     margin-left: clamp(4px, 0.8vw, 12px);
 
     font-size: clamp(16px, 1.4vw, 21px);
+}
+.bottom-gradient {
+    position: fixed;
+    inset: auto 0 0;
+
+    width: 100%;
+    height: clamp(100px, 16vh, 200px);
+
+    pointer-events: none;
+
+    background: linear-gradient(
+            to top,
+            rgba(255, 255, 255, 0.18) 0%,
+            rgba(255, 255, 255, 0.08) 40%,
+            transparent 100%
+    );
+    opacity: 0;
+    transition: all 0.2s ease-in-out;
+}
+.bottom-gradient.active-gradient {
+    opacity: 1;
 }

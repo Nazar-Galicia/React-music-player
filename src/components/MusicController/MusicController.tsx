@@ -9,6 +9,7 @@ const MusicController: FC = () => {
     const { audio, duration } = useAudio()
 
     const controllerRef = useRef<HTMLDivElement | null>(null)
+    const bottomGradientRef = useRef<HTMLDivElement | null>(null)
 
     const mouseMoveHandler = (event: MouseEvent) => {
         const mouseY = event.clientY
@@ -16,9 +17,11 @@ const MusicController: FC = () => {
 
         if (mouseY >= window.innerHeight * 0.8) {
             controllerRef.current && controllerRef.current.classList.add('active-controller')
+            bottomGradientRef.current && bottomGradientRef.current.classList.add('active-gradient')
         } else {
             hideTimer = setTimeout(() => {
                 controllerRef.current && controllerRef.current.classList.remove('active-controller')
+                bottomGradientRef.current && bottomGradientRef.current.classList.remove('active-gradient')
             }, 600)
         }
     }
@@ -26,6 +29,7 @@ const MusicController: FC = () => {
     const mouseLeaveHandler = () => {
         hideTimer = setTimeout(() => {
             controllerRef.current && controllerRef.current.classList.remove('active-controller')
+            bottomGradientRef.current && bottomGradientRef.current.classList.remove('active-gradient')
         }, 600)
     }
 
@@ -112,73 +116,76 @@ const MusicController: FC = () => {
     };
 
     return (
-        <div ref={controllerRef} className="music-controller active-controller">
-            <div className="music-controller__timeline">
-                <span className="music-controller__time">{
-                    audio.current ? formatSongTime(audio.current.currentTime) : '00:00'
-                }</span>
+        <>
+            <div ref={controllerRef} className="music-controller active-controller">
+                <div className="music-controller__timeline">
+                    <span className="music-controller__time">{
+                        audio.current ? formatSongTime(audio.current.currentTime) : '00:00'
+                    }</span>
 
-                <input
-                    className="music-controller__range"
-                    type="range"
-                    min="0"
-                    max="100"
-                    step="0.01"
-                    value={songProgress}
-                    onChange={changeSongCurrentTime}
-                />
+                    <input
+                        className="music-controller__range"
+                        type="range"
+                        min="0"
+                        max="100"
+                        step="0.01"
+                        value={songProgress}
+                        onChange={changeSongCurrentTime}
+                    />
 
-                <span className="music-controller__time">{formatSongTime(duration)}</span>
-            </div>
+                    <span className="music-controller__time">{formatSongTime(duration)}</span>
+                </div>
 
-            <div className="music-controller__controls">
+                <div className="music-controller__controls">
 
-                <button
-                    onClick={() => {
-                        if (audio.current) {
-                            audio.current.currentTime -= 10
+                    <button
+                        onClick={() => {
+                            if (audio.current) {
+                                audio.current.currentTime -= 10
 
-                            if (audio.current.paused) {
-                                audio.current.play().then(() => {
-                                    setIsPlaying(true)
-                                })
+                                if (audio.current.paused) {
+                                    audio.current.play().then(() => {
+                                        setIsPlaying(true)
+                                    })
+                                }
                             }
-                        }
-                    }}
-                    className="music-controller__button music-controller__button--seek"
-                >
-                    <span>↶</span>
-                    <small>10</small>
-                </button>
+                        }}
+                        className="music-controller__button music-controller__button--seek"
+                    >
+                        <span>↶</span>
+                        <small>10</small>
+                    </button>
 
-                <button onClick={playAudio} className="music-controller__button music-controller__button--play">
-                    <img src={isPlaying ? pauseIcon : playIcon} alt=""/>
-                </button>
+                    <button onClick={playAudio} className="music-controller__button music-controller__button--play">
+                        <img src={isPlaying ? pauseIcon : playIcon} alt=""/>
+                    </button>
 
-                <button
-                    onClick={() => {
-                        if (audio.current) {
-                            audio.current.currentTime += 10
+                    <button
+                        onClick={() => {
+                            if (audio.current) {
+                                audio.current.currentTime += 10
 
-                            if (audio.current.paused) {
-                                audio.current.play().then(() => {
-                                    setIsPlaying(true)
-                                })
+                                if (audio.current.paused) {
+                                    audio.current.play().then(() => {
+                                        setIsPlaying(true)
+                                    })
+                                }
                             }
-                        }
-                    }}
-                    className="music-controller__button music-controller__button--seek"
-                >
-                    <span>↷</span>
-                    <small>10</small>
-                </button>
+                        }}
+                        className="music-controller__button music-controller__button--seek"
+                    >
+                        <span>↷</span>
+                        <small>10</small>
+                    </button>
 
-                <button onClick={restartAudio} className="music-controller__button music-controller__button--restart">
-                    ↻
-                </button>
+                    <button onClick={restartAudio} className="music-controller__button music-controller__button--restart">
+                        ↻
+                    </button>
 
+                </div>
             </div>
-        </div>
+            <div ref={bottomGradientRef} className="bottom-gradient active-gradient" />
+        </>
     )
 }
 
