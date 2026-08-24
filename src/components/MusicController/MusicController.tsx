@@ -6,7 +6,7 @@ import pauseIcon from '../../assets/icons/pauseAudio.svg'
 
 const MusicController: FC = () => {
     let hideTimer: number;
-    const { audio } = useAudio()
+    const { audio, duration } = useAudio()
 
     const controllerRef = useRef<HTMLDivElement | null>(null)
 
@@ -62,7 +62,7 @@ const MusicController: FC = () => {
             !audio.current.ended &&
             audio.current.readyState > 2
         ) {
-            console.log(audio.current.currentTime)
+
         }
 
         frameId = requestAnimationFrame(handleSongCurrentTime)
@@ -70,7 +70,7 @@ const MusicController: FC = () => {
 
     useEffect(() => {
         handleSongCurrentTime()
-
+        console.log(duration)
         return () => {
             cancelAnimationFrame(frameId)
         }

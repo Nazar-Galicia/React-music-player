@@ -29,6 +29,7 @@ const TrackCard: FC<TrackCardProps> = (props) => {
                     state: {
                         audioUrl: stream.url,
                         thumbnail: image,
+                        duration: duration,
                     }
                 })
             }}

@@ -5,7 +5,8 @@ import {useLocation} from "react-router-dom";
 interface AudioContextProps {
     visualiserRef: Ref<HTMLCanvasElement | null>,
     songThumbnailRef: Ref<HTMLImageElement | null>,
-    audio: RefObject<HTMLAudioElement | null>
+    audio: RefObject<HTMLAudioElement | null>,
+    duration: number,
 }
 interface AudioProviderProps {
     children: ReactNode,
@@ -22,6 +23,7 @@ const AudioContextProvider: FC<AudioProviderProps> = (props) => {
 
     const {
         audioUrl,
+        duration,
     } = location.state
 
     const {
@@ -35,11 +37,13 @@ const AudioContextProvider: FC<AudioProviderProps> = (props) => {
             visualiserRef,
             songThumbnailRef,
             audio,
+            duration,
         }
     }, [
         visualiserRef,
         songThumbnailRef,
         audio,
+        duration,
     ])
 
     return (
