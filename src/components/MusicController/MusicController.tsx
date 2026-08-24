@@ -104,10 +104,19 @@ const MusicController: FC = () => {
         }
     }, []);
 
+    const formatSongTime = (seconds: number) => {
+        const minutes = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+
+        return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    };
+
     return (
         <div ref={controllerRef} className="music-controller active-controller">
             <div className="music-controller__timeline">
-                <span className="music-controller__time">0:00</span>
+                <span className="music-controller__time">{
+                    audio.current ? formatSongTime(audio.current.currentTime) : '00:00'
+                }</span>
 
                 <input
                     className="music-controller__range"
@@ -119,7 +128,7 @@ const MusicController: FC = () => {
                     onChange={changeSongCurrentTime}
                 />
 
-                <span className="music-controller__time">3:42</span>
+                <span className="music-controller__time">{formatSongTime(duration)}</span>
             </div>
 
             <div className="music-controller__controls">
