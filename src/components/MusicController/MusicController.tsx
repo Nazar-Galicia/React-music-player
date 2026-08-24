@@ -54,6 +54,8 @@ const MusicController: FC = () => {
 
     let frameId: number;
 
+    const [songProgress, setSongProgress] = useState<number>(0)
+
     const handleSongCurrentTime = () => {
         if (
             audio.current &&
@@ -62,7 +64,7 @@ const MusicController: FC = () => {
             !audio.current.ended &&
             audio.current.readyState > 2
         ) {
-
+            setSongProgress((audio.current.currentTime / duration) * 100)
         }
 
         frameId = requestAnimationFrame(handleSongCurrentTime)
@@ -96,7 +98,7 @@ const MusicController: FC = () => {
                     type="range"
                     min="0"
                     max="100"
-                    value="35"
+                    value={songProgress}
                     readOnly
                 />
 
