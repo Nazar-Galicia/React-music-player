@@ -40,8 +40,9 @@ const MusicController: FC = () => {
     const restartAudio = useCallback(() => {
         if (audio.current) {
             audio.current.currentTime = 0;
-            audio.current.play()
-            setIsPlaying(true)
+            audio.current.play().then(() => {
+                setIsPlaying(true)
+            })
         }
     }, [])
 
@@ -50,6 +51,30 @@ const MusicController: FC = () => {
             !isPlaying ? audio.current.pause() : audio.current.play()
         }
     }, [isPlaying]);
+
+    let frameId: number;
+
+    const handleSongCurrentTime = () => {
+        if (
+            audio.current &&
+            audio.current.currentTime > 0 &&
+            !audio.current.paused &&
+            !audio.current.ended &&
+            audio.current.readyState > 2
+        ) {
+            console.log(audio.current.currentTime)
+        }
+
+        frameId = requestAnimationFrame(handleSongCurrentTime)
+    }
+
+    useEffect(() => {
+        handleSongCurrentTime()
+
+        return () => {
+            cancelAnimationFrame(frameId)
+        }
+    }, []);
 
     useEffect(() => {
         document.addEventListener('mousemove', mouseMoveHandler)
