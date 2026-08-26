@@ -57,7 +57,7 @@ const MusicController: FC = () => {
     }, [isPlaying]);
 
     const [songProgress, setSongProgress] = useState<number>(0)
-    const [songVolume, setSongVolume] = useState<number>(70);
+    const [songVolume, setSongVolume] = useState<number>(Number(localStorage.getItem('songVolume')) || 70);
 
     const changeVolume = (event: ChangeEvent<HTMLInputElement>) => {
         setSongVolume(Number(event.target.value))
@@ -67,6 +67,7 @@ const MusicController: FC = () => {
         if (audio.current) {
             audio.current.volume = songVolume / 100
         }
+        localStorage.setItem('songVolume', String(songVolume))
     }, [songVolume]);
 
     const frameId = useRef<number>(0);
