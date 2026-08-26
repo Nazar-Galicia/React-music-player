@@ -15,10 +15,10 @@ const MusicController: FC = () => {
         const mouseY = event.clientY
         clearTimeout(hideTimer)
 
-        if (mouseY >= window.innerHeight * 0.8) {
-            controllerRef.current && controllerRef.current.classList.add('active-controller')
-            bottomGradientRef.current && bottomGradientRef.current.classList.add('active-gradient')
-        } else {
+        controllerRef.current && controllerRef.current.classList.add('active-controller')
+        bottomGradientRef.current && bottomGradientRef.current.classList.add('active-gradient')
+
+        if (mouseY <= window.innerHeight * 0.8) {
             hideTimer = setTimeout(() => {
                 controllerRef.current && controllerRef.current.classList.remove('active-controller')
                 bottomGradientRef.current && bottomGradientRef.current.classList.remove('active-gradient')
