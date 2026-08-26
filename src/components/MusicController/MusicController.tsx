@@ -3,13 +3,10 @@ import './MusicController.css'
 import {useAudio} from "../../hooks/useAudio.ts";
 import playIcon from '../../assets/icons/playAudio.svg'
 import pauseIcon from '../../assets/icons/pauseAudio.svg'
-import {useLocation} from "react-router-dom";
 
 const MusicController: FC = () => {
     let hideTimer: number;
     const { audio, duration } = useAudio()
-
-    const location = useLocation()
 
     const controllerRef = useRef<HTMLDivElement | null>(null)
     const bottomGradientRef = useRef<HTMLDivElement | null>(null)
@@ -20,13 +17,11 @@ const MusicController: FC = () => {
 
         controllerRef.current && controllerRef.current.classList.add('active-controller')
         bottomGradientRef.current && bottomGradientRef.current.classList.add('active-gradient')
-        document.body.classList.remove('hide-cursor')
 
         if (mouseY <= window.innerHeight * 0.8) {
             hideTimer = setTimeout(() => {
                 controllerRef.current && controllerRef.current.classList.remove('active-controller')
                 bottomGradientRef.current && bottomGradientRef.current.classList.remove('active-gradient')
-                document.body.classList.add('hide-cursor')
             }, 600)
         }
     }
@@ -127,7 +122,6 @@ const MusicController: FC = () => {
         return () => {
             document.removeEventListener('mousemove', showHideController)
             document.removeEventListener('mouseleave', mouseLeaveHandler)
-            document.body.classList.remove('hide-cursor')
         }
     }, []);
 
