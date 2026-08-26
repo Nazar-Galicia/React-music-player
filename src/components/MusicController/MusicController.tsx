@@ -11,7 +11,7 @@ const MusicController: FC = () => {
     const controllerRef = useRef<HTMLDivElement | null>(null)
     const bottomGradientRef = useRef<HTMLDivElement | null>(null)
 
-    const mouseMoveHandler = (event: MouseEvent) => {
+    const showHideController = (event: PointerEvent | MouseEvent) => {
         const mouseY = event.clientY
         clearTimeout(hideTimer)
 
@@ -112,11 +112,11 @@ const MusicController: FC = () => {
     }, []);
 
     useEffect(() => {
-        document.addEventListener('mousemove', mouseMoveHandler)
+        document.addEventListener('mousemove', showHideController)
         document.addEventListener('mouseleave', mouseLeaveHandler)
 
         return () => {
-            document.removeEventListener('mousemove', mouseMoveHandler)
+            document.removeEventListener('mousemove', showHideController)
             document.removeEventListener('mouseleave', mouseLeaveHandler)
         }
     }, []);
