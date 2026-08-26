@@ -82,8 +82,9 @@ const MusicController: FC = () => {
             audio.current.currentTime = (value / 100) * duration;
 
             if (audio.current.paused) {
-                audio.current.play()
-                setIsPlaying(true)
+                audio.current.play().then(() => {
+                    setIsPlaying(true)
+                })
             }
         }
     }
@@ -182,6 +183,42 @@ const MusicController: FC = () => {
                         ↻
                     </button>
 
+                    <div className="music-controller__volume">
+                        <svg
+                            className="music-controller__volume-icon"
+                            width="18"
+                            height="18"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                d="M4 9V15H8L13 19V5L8 9H4Z"
+                                fill="currentColor"
+                            />
+                            <path
+                                d="M16 9C17 10 17 14 16 15"
+                                stroke="currentColor"
+                                strokeWidth="1.7"
+                                strokeLinecap="round"
+                            />
+                            <path
+                                d="M18.5 6.5C21 9 21 15 18.5 17.5"
+                                stroke="currentColor"
+                                strokeWidth="1.7"
+                                strokeLinecap="round"
+                            />
+                        </svg>
+
+                        <input
+                            className="music-controller__volume-range"
+                            type="range"
+                            min="0"
+                            max="100"
+                            value="70"
+                            readOnly
+                        />
+                    </div>
                 </div>
             </div>
             <div ref={bottomGradientRef} className="bottom-gradient active-gradient" />
