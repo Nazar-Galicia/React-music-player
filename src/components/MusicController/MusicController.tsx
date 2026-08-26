@@ -57,6 +57,17 @@ const MusicController: FC = () => {
     }, [isPlaying]);
 
     const [songProgress, setSongProgress] = useState<number>(0)
+    const [songVolume, setSongVolume] = useState<number>(70);
+
+    const changeVolume = (event: ChangeEvent<HTMLInputElement>) => {
+        setSongVolume(Number(event.target.value))
+    }
+
+    useEffect(() => {
+        if (audio.current) {
+            audio.current.volume = songVolume / 100
+        }
+    }, [songVolume]);
 
     const frameId = useRef<number>(0);
 
@@ -215,7 +226,8 @@ const MusicController: FC = () => {
                             type="range"
                             min="0"
                             max="100"
-                            value="70"
+                            value={songVolume}
+                            onChange={changeVolume}
                             readOnly
                         />
                     </div>
