@@ -3,6 +3,7 @@ import './MusicController.css'
 import {useAudio} from "../../hooks/useAudio.ts";
 import playIcon from '../../assets/icons/playAudio.svg'
 import pauseIcon from '../../assets/icons/pauseAudio.svg'
+import {formatSongTime} from "../../utils/formatSongTime.ts";
 
 const MusicController: FC = () => {
     let hideTimer: number;
@@ -124,13 +125,6 @@ const MusicController: FC = () => {
             document.removeEventListener('mouseleave', mouseLeaveHandler)
         }
     }, []);
-
-    const formatSongTime = (seconds: number) => {
-        const minutes = Math.floor(seconds / 60);
-        const secs = Math.floor(seconds % 60);
-
-        return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-    };
 
     return (
         <>
