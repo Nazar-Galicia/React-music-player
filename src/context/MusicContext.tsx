@@ -39,9 +39,11 @@ const MusicContextProvider: FC<MusicProviderProps> = (props) => {
     } = useTracksObserver(() => { setPage(prev => prev + 1) })
 
     useEffect(() => {
+        setPage(0)
+        setTracks([])
         if (inputQuery.trim()) {
             musicAPI.getSongData(inputQuery, 0).then((data) => {
-                setTracks(data.data)
+                setTracks(prev => [...prev, ...data.data])
             })
         }
     }, [inputQuery]);
@@ -52,6 +54,11 @@ const MusicContextProvider: FC<MusicProviderProps> = (props) => {
 
     useEffect(() => {
         console.log(page)
+        if (inputQuery.trim()) {
+            musicAPI.getSongData(inputQuery, page).then((data) => {
+                setTracks(prev => [...prev, ...data.data])
+            })
+        }
     }, [page])
 
     const value: MusicContextProps = useMemo(() => {
