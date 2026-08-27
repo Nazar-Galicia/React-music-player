@@ -1,5 +1,5 @@
-import {nanoid} from "nanoid";
-import {useCallback, useEffect, useState} from "react";
+import { nanoid } from "nanoid";
+import { useCallback, useEffect, useState } from "react";
 
 interface Line {
     id: string,
@@ -13,7 +13,7 @@ interface Line {
 
 export const useMusicBackground = (isIntro: string, startSite: boolean) => {
     const strokes: string[] = [
-        "I'm running through the midnight rain",
+        "I’m running through the midnight rain",
         "Trying to find my way back home",
         "Every street still knows your name",
         "But I keep walking on my own",
@@ -118,57 +118,50 @@ export const useMusicBackground = (isIntro: string, startSite: boolean) => {
             brightness: +(Math.random() * 0.8 + 0.5).toFixed(2),
             line: strokes[Math.floor(Math.random() * strokes.length)],
             fontSize: Math.floor(Math.random() * (36 - 16 + 1)) + 16,
-            spX: Math.floor(Math.random() * (window.innerWidth + 1)),
+            spX: Math.random() * (window.innerWidth + 1),
             spY: firstLines ? Math.random() * window.innerHeight : -75,
         };
-    }
+    };
 
-    const [lines, setLines] = useState<Line[]>([]);
-    const [isActive, setIsActive] = useState(isIntro !== 'false');
-
-    useEffect(() => {
-        setIsActive(isIntro !== 'false');
-    }, [isIntro]);
-
-    useEffect(() => {
-        if (isActive) {
-            setLines(Array.from({ length: 15 }, () => createLine(true)));
-        } else {
-            setLines([]);
-        }
-    }, [isActive]);
+    const [lines, setLines] = useState<Line[]>(
+        isIntro !== "false"
+            ? Array.from({ length: 15 }, () => createLine(true))
+            : []
+    );
 
     useEffect(() => {
-        if (!isActive) return;
-
-        const handleVisibilityChange = () => {
-            if (document.hidden) {
-                setLines([]);
-            }
-        };
-
-        document.addEventListener('visibilitychange', handleVisibilityChange);
-
         const timer = setInterval(() => {
-            setLines(prev => {
-                if (prev.length > 30) {
-                    return [...prev.slice(-20), createLine()];
-                }
-                return [...prev, createLine()];
-            });
+            if (isIntro !== "false") {
+                setLines(prev => [...prev, createLine()]);
+            } else {
+                clearInterval(timer);
+            }
         }, 1500);
 
-        return () => {
-            clearInterval(timer);
-            document.removeEventListener('visibilitychange', handleVisibilityChange);
-        };
-    }, [isActive]);
+        return () => clearInterval(timer);
+    }, []);
 
     useEffect(() => {
-        if (startSite && !isActive) {
-            setIsActive(true);
+        if (!startSite) {
+            return;
         }
-    }, [startSite, isActive]);
+
+        let interval: ReturnType<typeof setInterval> | undefined;
+
+        const timeout = setTimeout(() => {
+            interval = setInterval(() => {
+                setLines(prev => [...prev, createLine()]);
+            }, 1500);
+        }, 4000);
+
+        return () => {
+            clearTimeout(timeout);
+
+            if (interval) {
+                clearInterval(interval);
+            }
+        };
+    }, [startSite]);
 
     const removeLine = useCallback((id: string): void => {
         setLines(prev => prev.filter(line => line.id !== id));
@@ -177,5 +170,5 @@ export const useMusicBackground = (isIntro: string, startSite: boolean) => {
     return {
         lines,
         removeLine
-    }
-}
+    };
+};
