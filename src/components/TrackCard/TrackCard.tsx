@@ -1,6 +1,7 @@
 import {type FC} from "react";
 import './TrackCard.css'
 import {useNavigate} from "react-router-dom";
+import {formatSongTime} from "../../utils/formatSongTime.ts";
 
 interface TrackCardProps {
     image: string,
@@ -45,7 +46,7 @@ const TrackCard: FC<TrackCardProps> = (props) => {
                 <p className="music-card__artist">{artist}</p>
             </div>
 
-            <span className="music-card__duration">{duration}</span>
+            <span className="music-card__duration">{formatSongTime(duration)}</span>
         </li>
     )
 }
