@@ -13,7 +13,7 @@ interface Line {
 
 export const useMusicBackground = (isIntro: string, startSite: boolean) => {
     const strokes: string[] = [
-        "I’m running through the midnight rain",
+        "I'm running through the midnight rain",
         "Trying to find my way back home",
         "Every street still knows your name",
         "But I keep walking on my own",
@@ -112,44 +112,63 @@ export const useMusicBackground = (isIntro: string, startSite: boolean) => {
     ];
 
     const createLine = (firstLines: boolean = false): Line => {
-
         return {
             id: nanoid(),
             speedY: Math.random() * 2,
             brightness: +(Math.random() * 0.8 + 0.5).toFixed(2),
             line: strokes[Math.floor(Math.random() * strokes.length)],
             fontSize: Math.floor(Math.random() * (36 - 16 + 1)) + 16,
-            spX: Math.random() * (window.innerWidth - (window.innerWidth * 0.1) * 2) + (window.innerWidth * 0.1),
+            spX: Math.floor(Math.random() * (window.innerWidth + 1)),
             spY: firstLines ? Math.random() * window.innerHeight : -75,
         };
     }
 
-    const [lines, setLines] = useState<Line[]>(isIntro !== 'false' ? Array.from({ length: 15 }, () => createLine(true)) : []);
+    const [lines, setLines] = useState<Line[]>([]);
+    const [isActive, setIsActive] = useState(isIntro !== 'false');
 
     useEffect(() => {
-        const timer = setInterval(() => {
-            if (isIntro !== 'false') {
-                setLines(prev => [...prev, createLine()]);
-            } else {
-                clearInterval(timer);
+        setIsActive(isIntro !== 'false');
+    }, [isIntro]);
+
+    useEffect(() => {
+        if (isActive) {
+            setLines(Array.from({ length: 15 }, () => createLine(true)));
+        } else {
+            setLines([]);
+        }
+    }, [isActive]);
+
+    useEffect(() => {
+        if (!isActive) return;
+
+        const handleVisibilityChange = () => {
+            if (document.hidden) {
+                setLines([]);
             }
+        };
+
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+
+        const timer = setInterval(() => {
+            setLines(prev => {
+                if (prev.length > 30) {
+                    return [...prev.slice(-20), createLine()];
+                }
+                return [...prev, createLine()];
+            });
         }, 1500);
 
-        return () => clearInterval(timer);
-    }, [])
+        return () => {
+            clearInterval(timer);
+            document.removeEventListener('visibilitychange', handleVisibilityChange);
+        };
+    }, [isActive]);
 
     useEffect(() => {
-        if (startSite) {
-            setTimeout(() => {
-                const timer = setInterval(() => {
-                    setLines(prev => [...prev, createLine()]);
-                }, 1500);
-
-                return () => clearInterval(timer);
-            }, 4000)
+        if (startSite && !isActive) {
+            setIsActive(true);
         }
-
-    }, [startSite]);
+    }, [startSite, isActive]);
 
     const removeLine = useCallback((id: string): void => {
         setLines(prev => prev.filter(line => line.id !== id));
