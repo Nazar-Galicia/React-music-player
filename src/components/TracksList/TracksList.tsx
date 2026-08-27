@@ -23,6 +23,7 @@ const TracksList: FC = () => {
     const {
         tracks,
         inputQuery,
+        observerElementRef,
     } = musicContext
 
     return (
@@ -39,6 +40,7 @@ const TracksList: FC = () => {
                     />
                 ))
             }
+            <div ref={observerElementRef} className='observer'></div>
         </ul>
     )
 }

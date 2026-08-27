@@ -1,5 +1,6 @@
-import {createContext, type FC, type ReactNode, useEffect, useMemo, useState} from "react";
+import {createContext, type FC, type ReactNode, type RefObject, useEffect, useMemo, useState} from "react";
 import {musicAPI} from "../api/musicAPI.ts";
+import {useTracksObserver} from "../hooks/useTracksObserver.ts";
 
 export type TrackObject = {
     id: string,
@@ -14,6 +15,7 @@ interface MusicContextProps {
     tracks: TrackObject[],
     setInputQuery: (query: string) => void,
     inputQuery: string,
+    observerElementRef: RefObject<HTMLDivElement | null>,
 }
 
 interface MusicProviderProps {
@@ -30,6 +32,11 @@ const MusicContextProvider: FC<MusicProviderProps> = (props) => {
     const [inputQuery, setInputQuery] = useState<string>('')
 
     const [tracks, setTracks] = useState<TrackObject[]>([])
+    const [page, setPage] = useState<number>(0)
+
+    const {
+        observerElementRef,
+    } = useTracksObserver(() => { setPage(prev => prev + 1) })
 
     useEffect(() => {
         if (inputQuery.trim()) {
@@ -43,22 +50,22 @@ const MusicContextProvider: FC<MusicProviderProps> = (props) => {
         console.log(tracks)
     }, [tracks]);
 
-    interface MusicContextData {
-        setInputQuery: (query: string) => void
-        tracks: TrackObject[],
-        inputQuery: string,
-    }
+    useEffect(() => {
+        console.log(page)
+    }, [page])
 
-    const value: MusicContextData = useMemo(() => {
+    const value: MusicContextProps = useMemo(() => {
         return {
             setInputQuery,
             tracks,
             inputQuery,
+            observerElementRef,
         }
     }, [
         setInputQuery,
         tracks,
         inputQuery,
+        observerElementRef,
     ])
 
     return (
