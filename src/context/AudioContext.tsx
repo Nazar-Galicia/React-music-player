@@ -1,12 +1,19 @@
-import {createContext, type FC, type ReactNode, type Ref, type RefObject, useMemo} from "react";
+import {type ChangeEvent, createContext, type FC, type ReactNode, type Ref, type RefObject, useMemo} from "react";
 import {useAudioVisualiser} from "../hooks/useAudioVisualiser.ts";
 import {useLocation} from "react-router-dom";
+import {useController} from "../hooks/useController.ts";
 
 interface AudioContextProps {
     visualiserRef: Ref<HTMLCanvasElement | null>,
     songThumbnailRef: Ref<HTMLImageElement | null>,
     audio: RefObject<HTMLAudioElement | null>,
     duration: number,
+    playAudio: () => void,
+    restartAudio: () => void,
+    songProgress: number,
+    changeSongCurrentTime: (event: ChangeEvent<HTMLInputElement>) => void,
+    changeVolume: (event: ChangeEvent<HTMLInputElement>) => void,
+    controllerRef: RefObject<HTMLDivElement | null>,
 }
 interface AudioProviderProps {
     children: ReactNode,
@@ -32,18 +39,39 @@ const AudioContextProvider: FC<AudioProviderProps> = (props) => {
         audio,
     } = useAudioVisualiser(audioUrl)
 
+    const {
+        playAudio,
+        restartAudio,
+        songProgress,
+        changeSongCurrentTime,
+        changeVolume,
+        controllerRef,
+    } = useController(audio, duration)
+
     const value: AudioContextProps = useMemo(() => {
         return {
             visualiserRef,
             songThumbnailRef,
             audio,
             duration,
+            playAudio,
+            restartAudio,
+            songProgress,
+            changeSongCurrentTime,
+            changeVolume,
+            controllerRef,
         }
     }, [
         visualiserRef,
         songThumbnailRef,
         audio,
         duration,
+        playAudio,
+        restartAudio,
+        songProgress,
+        changeSongCurrentTime,
+        changeVolume,
+        controllerRef,
     ])
 
     return (
