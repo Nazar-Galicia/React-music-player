@@ -14,6 +14,10 @@ interface AudioContextProps {
     changeSongCurrentTime: (event: ChangeEvent<HTMLInputElement>) => void,
     changeVolume: (event: ChangeEvent<HTMLInputElement>) => void,
     controllerRef: RefObject<HTMLDivElement | null>,
+    skipSong: (direction: 'backward' | 'forward') => void,
+    isPlaying: boolean,
+    bottomGradientRef: Ref<HTMLDivElement | null>,
+    songVolume: number,
 }
 interface AudioProviderProps {
     children: ReactNode,
@@ -46,6 +50,10 @@ const AudioContextProvider: FC<AudioProviderProps> = (props) => {
         changeSongCurrentTime,
         changeVolume,
         controllerRef,
+        skipSong,
+        isPlaying,
+        bottomGradientRef,
+        songVolume,
     } = useController(audio, duration)
 
     const value: AudioContextProps = useMemo(() => {
@@ -60,6 +68,10 @@ const AudioContextProvider: FC<AudioProviderProps> = (props) => {
             changeSongCurrentTime,
             changeVolume,
             controllerRef,
+            skipSong,
+            isPlaying,
+            bottomGradientRef,
+            songVolume,
         }
     }, [
         visualiserRef,
@@ -72,6 +84,10 @@ const AudioContextProvider: FC<AudioProviderProps> = (props) => {
         changeSongCurrentTime,
         changeVolume,
         controllerRef,
+        skipSong,
+        isPlaying,
+        bottomGradientRef,
+        songVolume,
     ])
 
     return (

@@ -123,6 +123,22 @@ export const useController = (
         }
     }, []);
 
+    const skipSong = (direction: 'backward' | 'forward') => {
+        if (audio.current) {
+            if (direction === 'backward') {
+                audio.current.currentTime -= 10;
+            }  else if (direction === 'forward') {
+                audio.current.currentTime += 10;
+            }
+
+            if (audio.current.paused) {
+                audio.current.play().then(() => {
+                    setIsPlaying(true)
+                })
+            }
+        }
+    }
+
     return {
         playAudio,
         restartAudio,
@@ -130,5 +146,9 @@ export const useController = (
         changeSongCurrentTime,
         changeVolume,
         controllerRef,
+        skipSong,
+        isPlaying,
+        bottomGradientRef,
+        songVolume,
     }
 }

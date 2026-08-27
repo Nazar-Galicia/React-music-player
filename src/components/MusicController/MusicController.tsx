@@ -15,9 +15,11 @@ const MusicController: FC = () => {
         changeSongCurrentTime,
         changeVolume,
         controllerRef,
+        skipSong,
+        isPlaying,
+        bottomGradientRef,
+        songVolume,
     } = useAudio()
-
-
 
     return (
         <>
@@ -44,15 +46,7 @@ const MusicController: FC = () => {
 
                     <button
                         onClick={() => {
-                            if (audio.current) {
-                                audio.current.currentTime -= 10
-
-                                if (audio.current.paused) {
-                                    audio.current.play().then(() => {
-                                        setIsPlaying(true)
-                                    })
-                                }
-                            }
+                            skipSong('backward')
                         }}
                         className="music-controller__button music-controller__button--seek"
                     >
@@ -66,15 +60,7 @@ const MusicController: FC = () => {
 
                     <button
                         onClick={() => {
-                            if (audio.current) {
-                                audio.current.currentTime += 10
-
-                                if (audio.current.paused) {
-                                    audio.current.play().then(() => {
-                                        setIsPlaying(true)
-                                    })
-                                }
-                            }
+                            skipSong('forward')
                         }}
                         className="music-controller__button music-controller__button--seek"
                     >
