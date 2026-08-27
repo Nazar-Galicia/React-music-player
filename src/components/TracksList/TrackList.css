@@ -1,11 +1,11 @@
 .tracks-list {
-    width: min(900px, 100%);
-    max-height: 70%;
-    padding: 1%;
+    width: clamp(180px, 80vw, 900px);
+    max-height: clamp(300px, 70vh, 70%);
+    padding: clamp(8px, 2vw, 16px);
     display: flex;
     flex-direction: column;
-    margin: 0 10% 0 10%;
-    gap: 10px;
+    margin: 0 clamp(20px, 10%, 100px) 0 clamp(20px, 10%, 100px);
+    gap: clamp(6px, 1.5vw, 16px);
     list-style: none;
     overflow-y: auto;
     scrollbar-width: thin;
@@ -24,7 +24,7 @@
             );
 
     border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 24px;
+    border-radius: clamp(12px, 4vw, 24px);
 
     box-shadow:
             0 25px 80px rgba(0, 0, 0, 0.45),
@@ -34,12 +34,12 @@
 }
 
 .tracks-list::-webkit-scrollbar {
-    width: 5px;
+    width: clamp(3px, 0.5vw, 8px);
 }
 
 .tracks-list::-webkit-scrollbar-track {
     background: transparent;
-    margin: 14px 0;
+    margin: clamp(8px, 2vw, 14px) 0;
 }
 
 .tracks-list::-webkit-scrollbar-thumb {
@@ -51,6 +51,7 @@
 .tracks-list::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.4);
 }
+
 .track-list-hidden {
     display: none;
 }
