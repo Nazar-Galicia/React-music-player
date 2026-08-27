@@ -43,7 +43,14 @@ const MusicContextProvider: FC<MusicProviderProps> = (props) => {
         setTracks([])
         if (inputQuery.trim()) {
             musicAPI.getSongData(inputQuery, 0).then((data) => {
-                setTracks(prev => [...prev, ...data.data])
+                setTracks(prev => {
+                    const tracks = [...prev, ...data.data]
+
+                    return tracks.filter(
+                        (track, index, self) =>
+                            index === self.findIndex(t => t.id === track.id)
+                    )
+                })
             })
         }
     }, [inputQuery]);
@@ -56,7 +63,14 @@ const MusicContextProvider: FC<MusicProviderProps> = (props) => {
         console.log(page)
         if (inputQuery.trim()) {
             musicAPI.getSongData(inputQuery, page).then((data) => {
-                setTracks(prev => [...prev, ...data.data])
+                setTracks(prev => {
+                    const tracks = [...prev, ...data.data]
+
+                    return tracks.filter(
+                        (track, index, self) =>
+                            index === self.findIndex(t => t.id === track.id)
+                    )
+                })
             })
         }
     }, [page])
