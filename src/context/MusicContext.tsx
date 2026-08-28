@@ -68,6 +68,10 @@ const MusicContextProvider: FC<MusicProviderProps> = (props) => {
                     behavior: "smooth",
                 })
             }
+
+            tracksListRef.current.scrollIntoView({
+                behavior: "smooth",
+            })
         }
     }, [tracks]);
 
