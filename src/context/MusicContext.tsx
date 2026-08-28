@@ -1,4 +1,4 @@
-import {createContext, type FC, type ReactNode, type RefObject, useEffect, useMemo, useState} from "react";
+import {createContext, type FC, type ReactNode, type RefObject, useEffect, useMemo, useRef, useState} from "react";
 import {musicAPI} from "../api/musicAPI.ts";
 import {useTracksObserver} from "../hooks/useTracksObserver.ts";
 
@@ -16,6 +16,7 @@ interface MusicContextProps {
     setInputQuery: (query: string) => void,
     inputQuery: string,
     observerElementRef: RefObject<HTMLDivElement | null>,
+    tracksListRef: RefObject<HTMLUListElement | null>,
 }
 
 interface MusicProviderProps {
@@ -33,6 +34,8 @@ const MusicContextProvider: FC<MusicProviderProps> = (props) => {
 
     const [tracks, setTracks] = useState<TrackObject[]>([])
     const [page, setPage] = useState<number>(0)
+
+    const tracksListRef = useRef<HTMLUListElement | null>(null)
 
     const {
         observerElementRef,
@@ -57,6 +60,15 @@ const MusicContextProvider: FC<MusicProviderProps> = (props) => {
 
     useEffect(() => {
         console.log(tracks)
+        if (tracksListRef.current) {
+            console.log(tracks.length)
+            if (tracks.length > 21) {
+                tracksListRef.current.scrollBy({
+                    top: 100,
+                    behavior: "smooth",
+                })
+            }
+        }
     }, [tracks]);
 
     useEffect(() => {
@@ -81,12 +93,14 @@ const MusicContextProvider: FC<MusicProviderProps> = (props) => {
             tracks,
             inputQuery,
             observerElementRef,
+            tracksListRef,
         }
     }, [
         setInputQuery,
         tracks,
         inputQuery,
         observerElementRef,
+        tracksListRef,
     ])
 
     return (

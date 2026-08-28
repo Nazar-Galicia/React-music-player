@@ -24,10 +24,11 @@ const TracksList: FC = () => {
         tracks,
         inputQuery,
         observerElementRef,
+        tracksListRef,
     } = musicContext
 
     return (
-        <ul className={`tracks-list ${!inputQuery.trim() ? 'track-list-hidden' : null}`}>
+        <ul ref={tracksListRef} className={`tracks-list ${!inputQuery.trim() ? 'track-list-hidden' : null}`}>
             {
                 tracks && tracks.map((song: TrackObject) => (
                     <TrackCard
