@@ -26,7 +26,7 @@ const TrackCard: FC<TrackCardProps> = (props) => {
         <li
             className="music-card"
             onClick={() => {
-                navigate(`/visualiser/${artist}/${title}`, {
+                navigate(`/visualiser/${encodeURIComponent(artist)}/${encodeURIComponent(title)}`, {
                     state: {
                         audioUrl: stream.url,
                         thumbnail: image,
