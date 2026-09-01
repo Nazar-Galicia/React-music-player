@@ -1,7 +1,9 @@
-import {type FC} from "react";
+import {type FC, useRef} from "react";
 import './TrackCard.css'
 import {useNavigate} from "react-router-dom";
 import {formatSongTime} from "../../utils/formatSongTime.ts";
+import Image from '../../components/Image/Image'
+import thumbnailPlaceholder from '@/assets/images/track-placeholder.png'
 
 interface TrackCardProps {
     image: string,
@@ -20,6 +22,8 @@ const TrackCard: FC<TrackCardProps> = (props) => {
         stream,
     } = props
 
+    const imageVar = useRef<string>(image)
+
     const navigate = useNavigate()
 
     return (
@@ -29,16 +33,19 @@ const TrackCard: FC<TrackCardProps> = (props) => {
                 navigate(`/visualiser/${encodeURIComponent(artist)}/${encodeURIComponent(title)}`, {
                     state: {
                         audioUrl: stream.url,
-                        thumbnail: image,
+                        thumbnail: imageVar.current,
                         duration: duration,
                     }
                 })
             }}
         >
-            <img
-                className="music-card__cover"
-                src={image}
-                alt="Album cover"
+            <Image
+                className='music-card__cover'
+                src={imageVar.current}
+                alt={title}
+                errorHandler={() => {
+                    imageVar.current = thumbnailPlaceholder
+                }}
             />
 
             <div className="music-card__info">
