@@ -105,7 +105,6 @@ export const useController = (
 
     useEffect(() => {
         frameId.current = requestAnimationFrame(handleSongCurrentTime)
-        console.log(duration)
         return () => {
             if (frameId.current !== null) {
                 cancelAnimationFrame(frameId.current);

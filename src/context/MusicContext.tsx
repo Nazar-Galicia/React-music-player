@@ -59,9 +59,7 @@ const MusicContextProvider: FC<MusicProviderProps> = (props) => {
     }, [inputQuery]);
 
     useEffect(() => {
-        console.log(tracks)
         if (tracksListRef.current) {
-            console.log(tracks.length)
             if (tracks.length > 21) {
                 tracksListRef.current.scrollBy({
                     top: 100,
@@ -76,7 +74,6 @@ const MusicContextProvider: FC<MusicProviderProps> = (props) => {
     }, [tracks]);
 
     useEffect(() => {
-        console.log(page)
         if (inputQuery.trim()) {
             musicAPI.getSongData(inputQuery, page).then((data) => {
                 setTracks(prev => {

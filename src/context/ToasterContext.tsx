@@ -55,7 +55,6 @@ const ToasterProvider: FC<ToasterProviderProps> = (props) => {
                         retryHandler()
                         toasterRef.current && toasterRef.current.classList.remove('active')
                         retryAttempts.current += 1;
-                        console.log(retryAttempts.current)
                     }
                 }
             } else {

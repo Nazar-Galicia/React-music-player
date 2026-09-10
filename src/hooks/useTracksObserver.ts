@@ -8,7 +8,6 @@ export const useTracksObserver = (observerHandler: () => void) => {
             (entries) => {
                 entries.forEach((entry) => {
                     if (entry.isIntersecting) {
-                        console.log("Елемент з'явився на екрані");
                         observerHandler();
                     }
                 });
